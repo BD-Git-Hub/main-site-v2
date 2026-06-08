@@ -52,13 +52,24 @@ const updateScrollState = () => {
 
   if (workStack && projectCards.length > 0 && !reduceMotion) {
     const stackTop = workStack.getBoundingClientRect().top + scrollTop;
-    const driftDistance = Math.min(window.innerWidth * 0.24, 280);
-    const segmentLength = Math.max(window.innerHeight * 0.86, 520);
+    const stackRange = Math.max(workStack.offsetHeight - window.innerHeight, 1);
+    const stackProgress = Math.min(Math.max((scrollTop - stackTop) / stackRange, 0), 1);
+    const activePosition = stackProgress * projectCards.length;
 
-    projectCards.forEach((card) => {
-      const cardStart = stackTop + card.offsetTop - window.innerHeight * 0.42;
-      const cardProgress = Math.min(Math.max((scrollTop - cardStart) / segmentLength, 0), 1);
-      card.style.setProperty("--stack-shift", `${Math.round(cardProgress * driftDistance)}px`);
+    projectCards.forEach((card, index) => {
+      const localProgress = Math.min(Math.max(activePosition - index, 0), 1);
+      const xPosition = -72 + localProgress * 148;
+      const fadeIn = Math.min(localProgress / 0.16, 1);
+      const fadeOut = Math.min((1 - localProgress) / 0.16, 1);
+      const opacity = Math.max(0, Math.min(fadeIn, fadeOut));
+      const centerWeight = 1 - Math.min(Math.abs(localProgress - 0.5) * 2, 1);
+
+      card.style.setProperty("--card-x", `${xPosition.toFixed(2)}vw`);
+      card.style.setProperty("--card-opacity", opacity.toFixed(3));
+      card.style.setProperty("--card-scale", (0.92 + centerWeight * 0.08).toFixed(3));
+      card.style.setProperty("--card-z", `${Math.round(centerWeight * 80)}px`);
+      card.style.setProperty("--card-pointer", opacity > 0.45 ? "auto" : "none");
+      card.style.zIndex = `${Math.round(20 + centerWeight * 30 + index)}`;
     });
   }
 };

@@ -863,21 +863,21 @@ main {
 }
 
 .project-card {
-  position: sticky;
-  top: calc(5.2rem + (var(--stack-index) * 0.42rem));
+  position: absolute;
+  inset: 0;
   z-index: calc(10 + var(--stack-index));
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.7fr);
-  min-height: min(68vh, 42rem);
-  margin-bottom: 16vh;
+  min-height: 100%;
   border-radius: 1.8rem;
   overflow: hidden;
-  transform: translateX(calc((var(--stack-index) * -0.42rem) + var(--stack-shift, 0px))) rotateY(-30deg);
+  opacity: var(--card-opacity, 0);
+  pointer-events: var(--card-pointer, none);
+  transform: translate3d(var(--card-x, -72vw), 0, var(--card-z, 0)) rotateY(-30deg) scale(var(--card-scale, 0.94));
   transform-origin: left center;
   will-change: transform;
   transition:
     border-color 220ms ease,
-    transform 220ms ease,
     box-shadow 220ms ease;
   box-shadow:
     1.1rem 0 0 rgba(255, 255, 255, 0.035),
@@ -887,9 +887,14 @@ main {
 
 .work__stack {
   position: relative;
-  display: grid;
-  gap: 0;
+  min-height: calc((var(--project-count) * 88vh) + 92vh);
   counter-reset: project;
+}
+
+.work__stage {
+  position: sticky;
+  top: 6rem;
+  height: min(72vh, 44rem);
   perspective: 1450px;
   perspective-origin: 16% 50%;
   transform-style: preserve-3d;
@@ -942,7 +947,7 @@ main {
     1.2rem 0 0 rgba(255, 255, 255, 0.045),
     2.35rem 0 0 rgba(77, 244, 255, 0.09),
     3.6rem 0 120px rgba(77, 244, 255, 0.15);
-  transform: translateX(calc((var(--stack-index) * -0.42rem) + var(--stack-shift, 0px) + 0.45rem)) rotateY(-30deg);
+  transform: translate3d(calc(var(--card-x, -72vw) + 0.45rem), 0, var(--card-z, 0)) rotateY(-30deg) scale(var(--card-scale, 0.94));
 }
 
 .project-card::after {
@@ -1264,9 +1269,13 @@ main {
 
   .project-card {
     position: relative;
+    inset: auto;
     top: auto;
     margin-bottom: 1rem;
-    transform: none;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    z-index: auto !important;
     box-shadow: 0 24px 90px rgba(0, 0, 0, 0.22);
   }
 
@@ -1279,6 +1288,19 @@ main {
     top: auto;
     margin-right: auto;
     margin-left: 0;
+  }
+
+  .work__stack {
+    min-height: auto;
+  }
+
+  .work__stage {
+    position: relative;
+    top: auto;
+    display: grid;
+    gap: 1rem;
+    height: auto;
+    perspective: none;
   }
 
   .contact {
@@ -1303,6 +1325,28 @@ main {
   [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  .work__stack {
+    min-height: auto;
+  }
+
+  .work__stage {
+    position: relative;
+    top: auto;
+    display: grid;
+    gap: 1rem;
+    height: auto;
+    perspective: none;
+  }
+
+  .project-card {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    z-index: auto !important;
   }
 
   .hero__scanline,
