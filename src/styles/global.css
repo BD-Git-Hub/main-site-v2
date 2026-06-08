@@ -872,10 +872,16 @@ main {
   margin-bottom: 16vh;
   border-radius: 1.8rem;
   overflow: hidden;
+  transform: rotateX(30deg);
+  transform-origin: 50% 12%;
   transition:
     border-color 220ms ease,
     transform 220ms ease,
     box-shadow 220ms ease;
+  box-shadow:
+    0 1.4rem 0 rgba(255, 255, 255, 0.035),
+    0 2.6rem 0 rgba(77, 244, 255, 0.055),
+    0 4rem 90px rgba(0, 0, 0, 0.48);
 }
 
 .work__stack {
@@ -883,6 +889,9 @@ main {
   display: grid;
   gap: 0;
   counter-reset: project;
+  perspective: 1500px;
+  perspective-origin: 50% 12%;
+  transform-style: preserve-3d;
 }
 
 .work__stack::before {
@@ -928,8 +937,11 @@ main {
 
 .project-card:hover {
   border-color: rgba(77, 244, 255, 0.28);
-  box-shadow: 0 34px 120px rgba(77, 244, 255, 0.08);
-  transform: translateY(-4px) rotateX(0.6deg);
+  box-shadow:
+    0 1.45rem 0 rgba(255, 255, 255, 0.04),
+    0 2.8rem 0 rgba(77, 244, 255, 0.08),
+    0 4.4rem 130px rgba(77, 244, 255, 0.13);
+  transform: translateY(-0.45rem) rotateX(27deg);
 }
 
 .project-card::after {
@@ -1248,6 +1260,12 @@ main {
     position: relative;
     top: auto;
     margin-bottom: 1rem;
+    transform: none;
+    box-shadow: 0 24px 90px rgba(0, 0, 0, 0.22);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
   }
 
   .work__stack::before {
