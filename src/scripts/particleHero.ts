@@ -113,10 +113,21 @@ const startParticleHero = async () => {
     });
   } catch (error) {
     console.warn("WebGL renderer could not start.", error);
+    hero.classList.add("is-webgl-unavailable");
     return;
   }
 
-  const source = await buildParticleSource();
+  let source: ParticleSource;
+
+  try {
+    source = await buildParticleSource();
+  } catch (error) {
+    console.warn("Particle source could not be built.", error);
+    hero.classList.add("is-webgl-unavailable");
+    renderer.dispose();
+    return;
+  }
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 1, 1600);
   const geometry = new THREE.BufferGeometry();
@@ -218,6 +229,7 @@ const startParticleHero = async () => {
   };
 
   writeBasePositions();
+  hero.classList.add("is-webgl-ready");
   hero.addEventListener("pointermove", onPointerMove);
   hero.addEventListener("pointerleave", onPointerLeave);
   window.addEventListener("resize", writeBasePositions);

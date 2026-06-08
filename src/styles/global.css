@@ -85,6 +85,28 @@ main {
   isolation: isolate;
 }
 
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(77, 244, 255, 0.6);
+  border-radius: 999px;
+  background: #05060b;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: translateY(-180%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 .hero {
   position: relative;
   --hero-scroll: 0;
@@ -110,6 +132,33 @@ main {
   inset: 0;
   z-index: -2;
   overflow: hidden;
+}
+
+.hero__fallback {
+  position: absolute;
+  top: clamp(9rem, 20vh, 15rem);
+  left: 50%;
+  width: min(112rem, 140vw);
+  aspect-ratio: 1920 / 518;
+  opacity: 0.4;
+  filter: saturate(1.22) contrast(1.08);
+  transform: translateX(-50%) translateY(calc(var(--hero-scroll) * 2.8rem));
+  transition: opacity 700ms ease;
+}
+
+.hero.is-webgl-ready .hero__fallback {
+  opacity: 0.14;
+}
+
+.hero.is-webgl-unavailable .hero__fallback {
+  opacity: 0.52;
+}
+
+.hero__fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .hero__canvas {

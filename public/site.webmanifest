@@ -1,0 +1,16 @@
+{
+  "name": "Bovin De Souza",
+  "short_name": "Bovin",
+  "description": "Brighton-based developer creating cinematic web experiences, automation tools, 3D interactions, and digital products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060b",
+  "theme_color": "#06070d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}

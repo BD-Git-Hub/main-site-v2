@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bovin-desouza.co.uk/sitemap.xml
