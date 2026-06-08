@@ -863,41 +863,32 @@ main {
 }
 
 .project-card {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: calc(5.5rem + (var(--stack-index) * 0.55rem));
   z-index: calc(10 + var(--stack-index));
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.7fr);
-  min-height: 100%;
+  min-height: min(68vh, 42rem);
+  margin-bottom: clamp(2rem, 9vh, 5.5rem);
   border-radius: 1.8rem;
   overflow: hidden;
-  opacity: var(--card-opacity, 0);
-  pointer-events: var(--card-pointer, none);
-  transform: translate3d(var(--card-x, -72vw), 0, var(--card-z, 0)) rotateY(-30deg) scale(var(--card-scale, 0.94));
-  transform-origin: left center;
-  will-change: transform;
+  transform: translateX(calc(var(--stack-index) * -0.32rem)) rotateZ(-0.8deg);
+  transform-origin: center;
   transition:
     border-color 220ms ease,
+    transform 220ms ease,
     box-shadow 220ms ease;
   box-shadow:
-    1.1rem 0 0 rgba(255, 255, 255, 0.035),
-    2.15rem 0 0 rgba(77, 244, 255, 0.06),
-    3.2rem 0 80px rgba(0, 0, 0, 0.54);
+    0 0.8rem 0 rgba(255, 255, 255, 0.035),
+    0 1.6rem 0 rgba(77, 244, 255, 0.045),
+    0 2.6rem 90px rgba(0, 0, 0, 0.46);
 }
 
 .work__stack {
   position: relative;
-  min-height: calc((var(--project-count) * 88vh) + 92vh);
+  display: grid;
+  gap: 0;
   counter-reset: project;
-}
-
-.work__stage {
-  position: sticky;
-  top: 6rem;
-  height: min(72vh, 44rem);
-  perspective: 1450px;
-  perspective-origin: 16% 50%;
-  transform-style: preserve-3d;
 }
 
 .work__stack::before {
@@ -944,30 +935,25 @@ main {
 .project-card:hover {
   border-color: rgba(77, 244, 255, 0.28);
   box-shadow:
-    1.2rem 0 0 rgba(255, 255, 255, 0.045),
-    2.35rem 0 0 rgba(77, 244, 255, 0.09),
-    3.6rem 0 120px rgba(77, 244, 255, 0.15);
-  transform: translate3d(calc(var(--card-x, -72vw) + 0.45rem), 0, var(--card-z, 0)) rotateY(-30deg) scale(var(--card-scale, 0.94));
+    0 0.9rem 0 rgba(255, 255, 255, 0.04),
+    0 1.8rem 0 rgba(77, 244, 255, 0.07),
+    0 3rem 120px rgba(77, 244, 255, 0.12);
+  transform: translate(calc(var(--stack-index) * -0.32rem), -0.45rem) rotateZ(-0.8deg);
 }
 
 .project-card::after {
   position: absolute;
-  top: 0.9rem;
-  right: 0;
-  bottom: 0.9rem;
+  top: 0;
+  right: clamp(1rem, 4vw, 3rem);
   z-index: 3;
-  width: 0.9rem;
+  width: min(15rem, 34vw);
+  height: 0.72rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-right: 0;
-  border-radius: 999px 0 0 999px;
+  border-bottom: 0;
+  border-radius: 0 0 999px 999px;
   content: "";
-  background:
-    linear-gradient(180deg, rgba(77, 244, 255, 0.34), rgba(184, 107, 255, 0.18)),
-    rgba(255, 255, 255, 0.04);
-  box-shadow:
-    0.65rem 0 0 rgba(255, 255, 255, 0.035),
-    1.25rem 0 0 rgba(77, 244, 255, 0.055),
-    1.8rem 0 46px rgba(77, 244, 255, 0.1);
+  background: linear-gradient(90deg, rgba(77, 244, 255, 0.28), rgba(184, 107, 255, 0.16));
+  box-shadow: 0 1rem 60px rgba(77, 244, 255, 0.1);
 }
 
 .project-card__media {
@@ -1294,15 +1280,6 @@ main {
     min-height: auto;
   }
 
-  .work__stage {
-    position: relative;
-    top: auto;
-    display: grid;
-    gap: 1rem;
-    height: auto;
-    perspective: none;
-  }
-
   .contact {
     width: min(calc(100% - 2rem), 1180px);
   }
@@ -1329,15 +1306,6 @@ main {
 
   .work__stack {
     min-height: auto;
-  }
-
-  .work__stage {
-    position: relative;
-    top: auto;
-    display: grid;
-    gap: 1rem;
-    height: auto;
-    perspective: none;
   }
 
   .project-card {
