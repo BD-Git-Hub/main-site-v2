@@ -555,6 +555,7 @@ main {
 
 .intro__stats div,
 .expertise-card,
+.skill-panel,
 .project-card,
 .process-step {
   border: 1px solid var(--line);
@@ -658,11 +659,112 @@ main {
 }
 
 .expertise-card p,
+.skill-panel p,
 .project-card p,
 .process-step p {
   position: relative;
   margin: 0;
   color: var(--muted);
+}
+
+.skills {
+  width: min(100%, 1280px);
+}
+
+.skills__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.95fr 0.95fr;
+  gap: clamp(1rem, 2vw, 1.35rem);
+}
+
+.skill-panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 32rem;
+  padding: 1.25rem;
+  border-radius: 1.7rem;
+  overflow: hidden;
+}
+
+.skill-panel::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 20% 0%, rgba(77, 244, 255, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 38%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.skill-panel:first-child {
+  grid-row: span 2;
+}
+
+.skill-panel__header {
+  position: relative;
+  display: grid;
+  gap: 0.85rem;
+  padding-bottom: 1.25rem;
+}
+
+.skill-panel__header > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 1px solid rgba(77, 244, 255, 0.34);
+  border-radius: 999px;
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.skill-panel h3 {
+  margin: 0;
+  max-width: 12rem;
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.skill-panel__list {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-panel__list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 3.1rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.skill-panel__list span {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.skill-panel__list strong {
+  color: var(--muted-strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .work {
@@ -700,7 +802,7 @@ main {
   height: 2.45rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  content: "0" counter(project);
+  content: counter(project, decimal-leading-zero);
   counter-increment: project;
   background: rgba(5, 6, 11, 0.68);
   color: var(--text);
@@ -747,6 +849,10 @@ main {
   transition:
     transform 420ms ease,
     filter 420ms ease;
+}
+
+.project-card__media--static {
+  cursor: default;
 }
 
 .project-card:hover .project-card__media img {
@@ -941,8 +1047,13 @@ main {
   }
 
   .expertise__grid,
+  .skills__grid,
   .process__timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skill-panel:first-child {
+    grid-row: auto;
   }
 
   .work__grid {
@@ -985,8 +1096,19 @@ main {
 
   .intro__stats,
   .expertise__grid,
+  .skills__grid,
   .process__timeline {
     grid-template-columns: 1fr;
+  }
+
+  .skill-panel {
+    min-height: auto;
+  }
+
+  .skill-panel__list li {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    border-radius: 1rem;
   }
 
   .project-card__media {

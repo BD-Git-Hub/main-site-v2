@@ -20,7 +20,52 @@ const expertise = [
   },
 ];
 
+const skillGroups = [
+  {
+    title: "Web skills",
+    summary: "The core front-end and implementation tools carried forward from the original portfolio.",
+    skills: [
+      { name: "HTML5", level: "3+ years" },
+      { name: "CSS3", level: "3+ years" },
+      { name: "JavaScript", level: "3+ years" },
+      { name: "jQuery", level: "3+ years" },
+      { name: "PHP", level: "3+ years" },
+      { name: "Photoshop", level: "3+ years" },
+    ],
+  },
+  {
+    title: "Interpersonal skills",
+    summary: "The working habits that keep builds moving, clear, and collaborative.",
+    skills: [
+      { name: "Time management", level: "Permanent" },
+      { name: "Fluent English", level: "Permanent" },
+      { name: "High work ethic", level: "Permanent" },
+      { name: "Team player", level: "Permanent" },
+    ],
+  },
+  {
+    title: "3D skills",
+    summary: "Production and interaction skills that support cinematic, visual-first digital work.",
+    skills: [
+      { name: "Autodesk Maya", level: "3 years" },
+      { name: "ZBrush", level: "3 years" },
+      { name: "After Effects", level: "2 years" },
+      { name: "Substance Painter", level: "2 years" },
+      { name: "Unity", level: "1 year" },
+    ],
+  },
+];
+
 const projects = [
+  {
+    title: "Automate Me",
+    image: "/media/images/projectimg/automate-me-placeholder.svg",
+    imageAlt: "Automate Me mobile automation concept preview",
+    kicker: "Mobile automation concept",
+    outcome:
+      "An in-progress mobile application concept focused on reducing repetitive tasks and turning everyday automation ideas into a usable product flow.",
+    signal: "Mobile / Automation / In build",
+  },
   {
     title: "Cut To Size",
     href: "https://cuttosize.co.uk/",
@@ -80,6 +125,35 @@ const projects = [
     outcome:
       "A React tool for logging daily carbs, protein, and fats with account access, saved entries, and automatic logout for safer personal tracking.",
     signal: "React / Firebase / Auth flow",
+  },
+  {
+    title: "Suits and Styles",
+    href: "https://site1.bovin-desouza-wordpress.com/",
+    image: "/media/images/projectimg/SuitsAndStyles.png",
+    imageAlt: "Suits and Styles WordPress website preview",
+    kicker: "Tailoring brand website",
+    outcome:
+      "A business site for a tailoring brand, designed around service discovery, brand story, and simple enquiry paths for prospective customers.",
+    signal: "WordPress / Elementor / Enquiries",
+  },
+  {
+    title: "Taste Travel",
+    href: "https://site2.bovin-desouza-wordpress.com/",
+    image: "/media/images/projectimg/tasteTravel.png",
+    imageAlt: "Taste Travel WordPress website preview",
+    kicker: "Travel content platform",
+    outcome:
+      "A destination-led travel blog with structured navigation, location pages, newsletter signup, and enquiry routes for ongoing content publishing.",
+    signal: "WordPress / Content model / Newsletter",
+  },
+  {
+    title: "3D Portfolio Website",
+    image: "/media/images/projectimg/3DsiteImg.png",
+    imageAlt: "3D portfolio website preview",
+    kicker: "Interactive 3D showcase",
+    outcome:
+      "A visual portfolio experiment built to demonstrate 3D production skills and create a more graphical viewing experience for interactive work.",
+    signal: "3D visuals / Portfolio concept / Not hosted",
   },
 ];
 
@@ -142,6 +216,7 @@ const process = [
         </a>
         <nav class="site-header__nav">
           <a href="#expertise">Expertise</a>
+          <a href="#skills">Skills</a>
           <a href="#work">Work</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -170,7 +245,7 @@ const process = [
       <aside class="hero__hud" aria-label="Portfolio signals" data-reveal style="--reveal-delay: 260ms">
         <div>
           <span>Selected builds</span>
-          <strong>06</strong>
+          <strong>10</strong>
         </div>
         <div>
           <span>Mode</span>
@@ -205,7 +280,7 @@ const process = [
           <span>Core disciplines</span>
         </div>
         <div style="--reveal-delay: 140ms">
-          <strong>6</strong>
+          <strong>10</strong>
           <span>Selected builds</span>
         </div>
         <div style="--reveal-delay: 200ms">
@@ -234,6 +309,44 @@ const process = [
       </div>
     </section>
 
+    <section class="section skills" id="skills" aria-labelledby="skills-title">
+      <div class="section__label" data-reveal>Skills</div>
+      <div class="section__heading section__heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Original skillset, rebuilt in the new system</p>
+          <h2 id="skills-title">A practical toolkit across code, people, and 3D craft.</h2>
+        </div>
+        <p>
+          The old skills carousel has been translated into a cleaner cinematic
+          console, so the information is still there without bringing back the old
+          jQuery carousel structure.
+        </p>
+      </div>
+      <div class="skills__grid">
+        {
+          skillGroups.map((group, groupIndex) => (
+            <article class="skill-panel" data-reveal style={`--reveal-delay: ${groupIndex * 90}ms`}>
+              <div class="skill-panel__header">
+                <span>0{groupIndex + 1}</span>
+                <h3>{group.title}</h3>
+                <p>{group.summary}</p>
+              </div>
+              <ul class="skill-panel__list" aria-label={group.title}>
+                {
+                  group.skills.map((skill) => (
+                    <li>
+                      <span>{skill.name}</span>
+                      <strong>{skill.level}</strong>
+                    </li>
+                  ))
+                }
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
     <section class="section work" id="work" aria-labelledby="work-title">
       <div class="section__label" data-reveal>Selected work</div>
       <div class="section__heading section__heading--split" data-reveal>
@@ -251,13 +364,27 @@ const process = [
         {
           projects.map((project, index) => (
             <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --reveal-delay: ${(index % 3) * 90}ms`}>
-              <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
-                <img src={project.image} alt={project.imageAlt} loading="lazy" />
-              </a>
+              {
+                project.href ? (
+                  <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
+                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                  </a>
+                ) : (
+                  <div class="project-card__media project-card__media--static">
+                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                  </div>
+                )
+              }
               <div class="project-card__body">
                 <p class="project-card__kicker">{project.kicker}</p>
                 <h3>
-                  <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
+                  {
+                    project.href ? (
+                      <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
+                    ) : (
+                      project.title
+                    )
+                  }
                 </h3>
                 <p>{project.outcome}</p>
                 <span>{project.signal}</span>
