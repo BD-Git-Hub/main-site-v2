@@ -4,6 +4,8 @@ const revealItems = Array.from(document.querySelectorAll<HTMLElement>("[data-rev
 const header = document.querySelector<HTMLElement>(".site-header");
 const progress = document.querySelector<HTMLElement>(".site-header__progress");
 const hero = document.querySelector<HTMLElement>(".hero");
+const workStack = document.querySelector<HTMLElement>(".work__stack");
+const projectCards = Array.from(document.querySelectorAll<HTMLElement>(".project-card"));
 
 const revealNow = (item: HTMLElement) => {
   item.classList.add("is-visible");
@@ -46,6 +48,18 @@ const updateScrollState = () => {
     const heroHeight = Math.max(hero.offsetHeight, 1);
     const heroProgress = Math.min(scrollTop / heroHeight, 1);
     hero.style.setProperty("--hero-scroll", heroProgress.toFixed(3));
+  }
+
+  if (workStack && projectCards.length > 0 && !reduceMotion) {
+    const stackTop = workStack.getBoundingClientRect().top + scrollTop;
+    const driftDistance = Math.min(window.innerWidth * 0.24, 280);
+    const segmentLength = Math.max(window.innerHeight * 0.86, 520);
+
+    projectCards.forEach((card) => {
+      const cardStart = stackTop + card.offsetTop - window.innerHeight * 0.42;
+      const cardProgress = Math.min(Math.max((scrollTop - cardStart) / segmentLength, 0), 1);
+      card.style.setProperty("--stack-shift", `${Math.round(cardProgress * driftDistance)}px`);
+    });
   }
 };
 

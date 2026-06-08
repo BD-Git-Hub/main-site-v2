@@ -872,8 +872,9 @@ main {
   margin-bottom: 16vh;
   border-radius: 1.8rem;
   overflow: hidden;
-  transform: translateX(calc(var(--stack-index) * -0.28rem)) rotateY(-30deg);
+  transform: translateX(calc((var(--stack-index) * -0.42rem) + var(--stack-shift, 0px))) rotateY(-30deg);
   transform-origin: left center;
+  will-change: transform;
   transition:
     border-color 220ms ease,
     transform 220ms ease,
@@ -941,7 +942,7 @@ main {
     1.2rem 0 0 rgba(255, 255, 255, 0.045),
     2.35rem 0 0 rgba(77, 244, 255, 0.09),
     3.6rem 0 120px rgba(77, 244, 255, 0.15);
-  transform: translateX(calc((var(--stack-index) * -0.28rem) + 0.45rem)) rotateY(-25deg);
+  transform: translateX(calc((var(--stack-index) * -0.42rem) + var(--stack-shift, 0px) + 0.45rem)) rotateY(-30deg);
 }
 
 .project-card::after {
