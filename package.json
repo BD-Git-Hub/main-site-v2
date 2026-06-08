@@ -1,0 +1,35 @@
+{
+  "name": "main-site-v2",
+  "version": "1.0.0",
+  "description": "Bovin De Souza personal portfolio rebuilt with Astro and Three.js.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BD-Git-Hub/main-site-v2.git"
+  },
+  "keywords": [
+    "astro",
+    "portfolio",
+    "threejs"
+  ],
+  "author": "Bovin De Souza",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/BD-Git-Hub/main-site-v2/issues"
+  },
+  "homepage": "https://github.com/BD-Git-Hub/main-site-v2#readme",
+  "dependencies": {
+    "astro": "^6.4.4",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.1",
+    "typescript": "^6.0.3"
+  }
+}

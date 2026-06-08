@@ -1,0 +1,261 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const expertise = [
+  {
+    title: "Web experiences",
+    text: "Fast, expressive interfaces that make a brand feel alive while staying clear, usable, and easy to maintain.",
+  },
+  {
+    title: "Commerce and content systems",
+    text: "Shopfronts, WordPress builds, Magento ecosystems, and structured content flows built around real customer journeys.",
+  },
+  {
+    title: "Automation and AI tools",
+    text: "Practical systems that reduce repetitive work, connect services, and turn product ideas into useful workflows.",
+  },
+  {
+    title: "3D and interactive visuals",
+    text: "Immersive details, motion, and WebGL moments that give digital products a more cinematic sense of presence.",
+  },
+];
+
+const projects = [
+  {
+    title: "Cut To Size",
+    href: "https://cuttosize.co.uk/",
+    image: "/media/images/projectimg/Cuttosize.png",
+    imageAlt: "Cut To Size website preview",
+    kicker: "Conversion-led trade website",
+    outcome:
+      "A focused web presence for a precision wood cutting supplier, helping trade customers move quickly from discovery to quote request or price-list download.",
+    signal: "AWS hosting / Quote journey / Trade clarity",
+  },
+  {
+    title: "Cut My",
+    href: "https://www.cutmy.co.uk/",
+    image: "/media/images/projectimg/cutMy.png",
+    imageAlt: "Cut My website preview",
+    kicker: "Custom materials commerce",
+    outcome:
+      "A cut-to-size DIY materials store shaped around a simpler buying path for custom plastic and wood products across a Magento and AWS stack.",
+    signal: "Magento / Microservices / Product ordering",
+  },
+  {
+    title: "Echelon Estates",
+    href: "https://site4.bovin-desouza-wordpress.com/",
+    image: "/media/images/projectimg/EchelonEstates.png",
+    imageAlt: "Echelon Estates website preview",
+    kicker: "Luxury property listings",
+    outcome:
+      "A polished property platform with reusable listing templates, CSV imports, and search-ready content patterns for high-end real estate presentation.",
+    signal: "WordPress / ACF / SEO structure",
+  },
+  {
+    title: "Basket & Co",
+    href: "https://site3.bovin-desouza-wordpress.com/",
+    image: "/media/images/projectimg/basket&Co.png",
+    imageAlt: "Basket & Co ecommerce website preview",
+    kicker: "Everyday essentials storefront",
+    outcome:
+      "A WooCommerce experience with category browsing, cart, checkout, test payments, analytics visibility, and content blocks that support ongoing merchandising.",
+    signal: "WooCommerce / Checkout / Analytics",
+  },
+  {
+    title: "FilmFlick",
+    href: "https://movies-project-vue-8ql2.vercel.app/home",
+    image: "/media/images/projectimg/moviesSiteImg.png",
+    imageAlt: "FilmFlick movie discovery website preview",
+    kicker: "Movie discovery product",
+    outcome:
+      "A responsive Vue app for searching films, filtering by genre, viewing ratings and trailers, and managing watchlist-style interactions from live movie data.",
+    signal: "Vue / TMDB API / Responsive UI",
+  },
+  {
+    title: "Macros Calculator",
+    href: "https://macro-calculator-website.vercel.app/",
+    image: "/media/images/projectimg/macrosCalculatorSiteImg.png",
+    imageAlt: "Macros Calculator website preview",
+    kicker: "Personal nutrition tracker",
+    outcome:
+      "A React tool for logging daily carbs, protein, and fats with account access, saved entries, and automatic logout for safer personal tracking.",
+    signal: "React / Firebase / Auth flow",
+  },
+];
+
+const process = [
+  {
+    step: "01",
+    title: "Discover",
+    text: "Understand the goal, audience, constraints, and the moment where the experience needs to feel effortless.",
+  },
+  {
+    step: "02",
+    title: "Shape",
+    text: "Turn the idea into a focused direction: visual rhythm, content structure, interaction model, and technical route.",
+  },
+  {
+    step: "03",
+    title: "Build",
+    text: "Create the interface, systems, and motion details with clean implementation and practical deployment in mind.",
+  },
+  {
+    step: "04",
+    title: "Launch",
+    text: "Prepare the final static build, test the experience, and ship a site that can keep evolving after release.",
+  },
+];
+---
+
+<BaseLayout>
+  <main>
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__bg">
+        <canvas id="particle-hero" class="hero__canvas" aria-hidden="true"></canvas>
+        <div class="hero__glow hero__glow--cyan" aria-hidden="true"></div>
+        <div class="hero__glow hero__glow--violet" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+      </div>
+
+      <header class="site-header" aria-label="Primary navigation">
+        <a class="site-header__brand" href="#top" aria-label="Bovin De Souza home">
+          <span>Bovin</span>
+          <span>De Souza</span>
+        </a>
+        <nav class="site-header__nav">
+          <a href="#expertise">Expertise</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <div class="hero__content">
+        <p class="eyebrow">Brighton-based developer / personal digital studio</p>
+        <h1 id="hero-title">Designing sharp web systems with cinematic digital depth.</h1>
+        <p class="hero__intro">
+          I am Bovin De Souza, a developer creating premium web experiences,
+          automation tools, 3D interactions, and digital products that feel calm,
+          useful, and future-facing.
+        </p>
+        <div class="hero__actions" aria-label="Hero calls to action">
+          <a class="button button--primary" href="#work">View selected work</a>
+          <a class="button button--ghost" href="#expertise">Explore expertise</a>
+        </div>
+      </div>
+
+      <aside class="hero__signal" aria-label="Current focus">
+        <span>Current focus</span>
+        <strong>WebGL, AI workflows, commerce systems</strong>
+      </aside>
+    </section>
+
+    <section class="section intro" aria-labelledby="intro-title">
+      <div class="section__label">Intro / About</div>
+      <div class="intro__copy">
+        <h2 id="intro-title">A personal portfolio with agency-level polish.</h2>
+        <p>
+          Bovin De Souza is a Brighton-based developer building websites, product
+          interfaces, automation tools, and interactive visual systems. The work
+          sits where practical engineering meets atmosphere: clear journeys,
+          purposeful movement, and digital products that make people want to keep
+          exploring.
+        </p>
+      </div>
+      <div class="intro__stats" aria-label="Practice highlights">
+        <div>
+          <strong>4</strong>
+          <span>Core disciplines</span>
+        </div>
+        <div>
+          <strong>6</strong>
+          <span>Selected builds</span>
+        </div>
+        <div>
+          <strong>01</strong>
+          <span>Independent studio mindset</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
+      <div class="section__label">Expertise</div>
+      <div class="section__heading">
+        <p class="eyebrow">What I build</p>
+        <h2 id="expertise-title">Digital systems with craft, clarity, and momentum.</h2>
+      </div>
+      <div class="expertise__grid">
+        {
+          expertise.map((item) => (
+            <article class="expertise-card">
+              <span aria-hidden="true"></span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="section__label">Selected work</div>
+      <div class="section__heading section__heading--split">
+        <div>
+          <p class="eyebrow">Outcomes over tech lists</p>
+          <h2 id="work-title">Projects shaped around business value and user flow.</h2>
+        </div>
+        <p>
+          A focused selection from commerce, content systems, product interfaces,
+          and self-directed digital tools.
+        </p>
+      </div>
+
+      <div class="work__grid">
+        {
+          projects.map((project, index) => (
+            <article class="project-card" style={`--card-index: ${index + 1}`}>
+              <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
+                <img src={project.image} alt={project.imageAlt} loading="lazy" />
+              </a>
+              <div class="project-card__body">
+                <p class="project-card__kicker">{project.kicker}</p>
+                <h3>
+                  <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
+                </h3>
+                <p>{project.outcome}</p>
+                <span>{project.signal}</span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section process" aria-labelledby="process-title">
+      <div class="section__label">Process</div>
+      <div class="section__heading">
+        <p class="eyebrow">How ideas become shipped work</p>
+        <h2 id="process-title">A simple path from first signal to live product.</h2>
+      </div>
+      <div class="process__timeline">
+        {
+          process.map((item) => (
+            <article class="process-step">
+              <span>{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact__orb" aria-hidden="true"></div>
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title">Have a build, product idea, or automation problem worth shaping?</h2>
+      <a class="contact__email" href="mailto:bovindesouza@gmail.com">bovindesouza@gmail.com</a>
+    </section>
+  </main>
+
+  <script src="../scripts/particleHero.ts"></script>
+</BaseLayout>
