@@ -23,7 +23,7 @@ const expertise = [
 const skillGroups = [
   {
     title: "Web skills",
-    summary: "The core front-end and implementation tools carried forward from the original portfolio.",
+    summary: "Front-end foundations and implementation tools for building clear, reliable interfaces.",
     skills: [
       { name: "HTML5", level: "3+ years" },
       { name: "CSS3", level: "3+ years" },
@@ -69,7 +69,7 @@ const projects = [
   {
     title: "Cut To Size",
     href: "https://cuttosize.co.uk/",
-    image: "/media/images/projectimg/Cuttosize.png",
+    image: "/media/images/projectimg/Cuttosize.webp",
     imageAlt: "Cut To Size website preview",
     kicker: "Conversion-led trade website",
     outcome:
@@ -79,7 +79,7 @@ const projects = [
   {
     title: "Cut My",
     href: "https://www.cutmy.co.uk/",
-    image: "/media/images/projectimg/cutMy.png",
+    image: "/media/images/projectimg/cutMy.webp",
     imageAlt: "Cut My website preview",
     kicker: "Custom materials commerce",
     outcome:
@@ -89,7 +89,7 @@ const projects = [
   {
     title: "Echelon Estates",
     href: "https://site4.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/EchelonEstates.png",
+    image: "/media/images/projectimg/EchelonEstates.webp",
     imageAlt: "Echelon Estates website preview",
     kicker: "Luxury property listings",
     outcome:
@@ -99,7 +99,7 @@ const projects = [
   {
     title: "Basket & Co",
     href: "https://site3.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/basket&Co.png",
+    image: "/media/images/projectimg/basket&Co.webp",
     imageAlt: "Basket & Co ecommerce website preview",
     kicker: "Everyday essentials storefront",
     outcome:
@@ -109,7 +109,7 @@ const projects = [
   {
     title: "FilmFlick",
     href: "https://movies-project-vue-8ql2.vercel.app/home",
-    image: "/media/images/projectimg/moviesSiteImg.png",
+    image: "/media/images/projectimg/moviesSiteImg.webp",
     imageAlt: "FilmFlick movie discovery website preview",
     kicker: "Movie discovery product",
     outcome:
@@ -119,7 +119,7 @@ const projects = [
   {
     title: "Macros Calculator",
     href: "https://macro-calculator-website.vercel.app/",
-    image: "/media/images/projectimg/macrosCalculatorSiteImg.png",
+    image: "/media/images/projectimg/macrosCalculatorSiteImg.webp",
     imageAlt: "Macros Calculator website preview",
     kicker: "Personal nutrition tracker",
     outcome:
@@ -129,7 +129,7 @@ const projects = [
   {
     title: "Suits and Styles",
     href: "https://site1.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/SuitsAndStyles.png",
+    image: "/media/images/projectimg/SuitsAndStyles.webp",
     imageAlt: "Suits and Styles WordPress website preview",
     kicker: "Tailoring brand website",
     outcome:
@@ -139,7 +139,7 @@ const projects = [
   {
     title: "Taste Travel",
     href: "https://site2.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/tasteTravel.png",
+    image: "/media/images/projectimg/tasteTravel.webp",
     imageAlt: "Taste Travel WordPress website preview",
     kicker: "Travel content platform",
     outcome:
@@ -148,12 +148,39 @@ const projects = [
   },
   {
     title: "3D Portfolio Website",
-    image: "/media/images/projectimg/3DsiteImg.png",
+    image: "/media/images/projectimg/3DsiteImg.webp",
     imageAlt: "3D portfolio website preview",
     kicker: "Interactive 3D showcase",
     outcome:
       "A visual portfolio experiment built to demonstrate 3D production skills and create a more graphical viewing experience for interactive work.",
     signal: "3D visuals / Portfolio concept / Not hosted",
+  },
+];
+
+const routine = [
+  { time: "4:00 AM", label: "Wake up" },
+  { time: "6:00 AM", label: "Gym" },
+  { time: "9:00 AM", label: "Work" },
+  { time: "2:00 PM", label: "Lunch" },
+  { time: "5:00 PM", label: "Social" },
+  { time: "10:00 PM", label: "Sleep" },
+];
+
+const lifePhotos = [
+  {
+    src: "/media/images/me/me.webp",
+    alt: "Bovin scuba diving",
+    caption: "Exploration",
+  },
+  {
+    src: "/media/images/me/me2.webp",
+    alt: "Bovin graduating",
+    caption: "Progress",
+  },
+  {
+    src: "/media/images/me/me3.webp",
+    alt: "Bovin at Eastbourne Airbourne",
+    caption: "Balance",
   },
 ];
 
@@ -242,21 +269,6 @@ const process = [
         <strong>WebGL, AI workflows, commerce systems</strong>
       </aside>
 
-      <aside class="hero__hud" aria-label="Portfolio signals" data-reveal style="--reveal-delay: 260ms">
-        <div>
-          <span>Selected builds</span>
-          <strong>10</strong>
-        </div>
-        <div>
-          <span>Mode</span>
-          <strong>Independent studio</strong>
-        </div>
-        <div>
-          <span>Output</span>
-          <strong>Static / Vercel-ready</strong>
-        </div>
-      </aside>
-
       <a class="hero__scroll" href="#intro" aria-label="Scroll to intro">
         <span>Scroll</span>
       </a>
@@ -290,6 +302,43 @@ const process = [
       </div>
     </section>
 
+    <section class="section life" aria-labelledby="life-title">
+      <div class="section__label" data-reveal>Beyond the desk</div>
+      <div class="section__heading section__heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Structure, balance, and curiosity</p>
+          <h2 id="life-title">The rhythm behind the work.</h2>
+        </div>
+        <p>
+          Moving to the UK shaped a long-running interest in connection,
+          belonging, and how software can help people move through everyday
+          challenges with more clarity.
+        </p>
+      </div>
+      <div class="life__layout">
+        <div class="life__routine" data-reveal>
+          {
+            routine.map((item, index) => (
+              <div class="life__routine-step" style={`--reveal-delay: ${index * 55}ms`}>
+                <span>{item.time}</span>
+                <strong>{item.label}</strong>
+              </div>
+            ))
+          }
+        </div>
+        <div class="life__photos" data-reveal style="--reveal-delay: 140ms">
+          {
+            lifePhotos.map((photo) => (
+              <figure>
+                <img src={photo.src} alt={photo.alt} loading="lazy" />
+                <figcaption>{photo.caption}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
     <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
       <div class="section__label" data-reveal>Expertise</div>
       <div class="section__heading" data-reveal>
@@ -313,14 +362,9 @@ const process = [
       <div class="section__label" data-reveal>Skills</div>
       <div class="section__heading section__heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Original skillset, rebuilt in the new system</p>
-          <h2 id="skills-title">A practical toolkit across code, people, and 3D craft.</h2>
+          <p class="eyebrow">Core capabilities</p>
+          <h2 id="skills-title">Skills that support clear, interactive builds.</h2>
         </div>
-        <p>
-          The old skills carousel has been translated into a cleaner cinematic
-          console, so the information is still there without bringing back the old
-          jQuery carousel structure.
-        </p>
       </div>
       <div class="skills__grid">
         {
