@@ -399,15 +399,15 @@ const process = [
           <h2 id="work-title">Projects shaped around business value and user flow.</h2>
         </div>
         <p>
-          A focused selection from commerce, content systems, product interfaces,
-          and self-directed digital tools.
+          Scroll through the project stack like a drawer of selected builds, from
+          automation concepts to commerce systems and interactive products.
         </p>
       </div>
 
-      <div class="work__grid">
+      <div class="work__stack" aria-label="Stacked selected work">
         {
           projects.map((project, index) => (
-            <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --reveal-delay: ${(index % 3) * 90}ms`}>
+            <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --stack-index: ${index}; --reveal-delay: ${(index % 3) * 90}ms`}>
               {
                 project.href ? (
                   <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">

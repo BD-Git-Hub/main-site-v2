@@ -862,23 +862,47 @@ main {
   width: min(100%, 1360px);
 }
 
-.work__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2.4vw, 1.6rem);
-}
-
 .project-card {
-  position: relative;
+  position: sticky;
+  top: calc(5.2rem + (var(--stack-index) * 0.42rem));
+  z-index: calc(10 + var(--stack-index));
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(16rem, 0.72fr);
-  min-height: 25rem;
+  grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.7fr);
+  min-height: min(68vh, 42rem);
+  margin-bottom: 16vh;
   border-radius: 1.8rem;
   overflow: hidden;
   transition:
     border-color 220ms ease,
     transform 220ms ease,
     box-shadow 220ms ease;
+}
+
+.work__stack {
+  position: relative;
+  display: grid;
+  gap: 0;
+  counter-reset: project;
+}
+
+.work__stack::before {
+  position: sticky;
+  top: 4.35rem;
+  z-index: 4;
+  display: block;
+  width: fit-content;
+  margin: 0 0 1rem auto;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(77, 244, 255, 0.22);
+  border-radius: 999px;
+  content: "Scroll the file stack";
+  background: rgba(5, 6, 11, 0.62);
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
 }
 
 .project-card::before {
@@ -902,23 +926,30 @@ main {
   backdrop-filter: blur(14px);
 }
 
-.work__grid {
-  counter-reset: project;
-}
-
 .project-card:hover {
   border-color: rgba(77, 244, 255, 0.28);
   box-shadow: 0 34px 120px rgba(77, 244, 255, 0.08);
-  transform: translateY(-5px);
+  transform: translateY(-4px) rotateX(0.6deg);
 }
 
-.project-card:nth-child(3n + 1) {
-  grid-column: span 2;
+.project-card::after {
+  position: absolute;
+  top: 0;
+  right: clamp(1rem, 4vw, 3rem);
+  z-index: 3;
+  width: min(16rem, 34vw);
+  height: 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 0;
+  border-radius: 0 0 999px 999px;
+  content: "";
+  background: linear-gradient(90deg, rgba(77, 244, 255, 0.32), rgba(184, 107, 255, 0.18));
+  box-shadow: 0 18px 70px rgba(77, 244, 255, 0.1);
 }
 
 .project-card__media {
   position: relative;
-  min-height: 21rem;
+  min-height: 100%;
   overflow: hidden;
 }
 
@@ -1123,10 +1154,13 @@ main {
   .section__heading--split,
   .intro,
   .life__layout,
-  .project-card,
-  .project-card:nth-child(3n + 1) {
+  .project-card {
     grid-template-columns: 1fr;
     grid-column: auto;
+  }
+
+  .project-card {
+    min-height: auto;
   }
 
   .intro__stats {
@@ -1143,8 +1177,8 @@ main {
     grid-row: auto;
   }
 
-  .work__grid {
-    grid-template-columns: 1fr;
+  .project-card__media {
+    min-height: clamp(16rem, 38vh, 24rem);
   }
 
   .life__photos {
@@ -1208,6 +1242,19 @@ main {
 
   .project-card__media {
     min-height: 16rem;
+  }
+
+  .project-card {
+    position: relative;
+    top: auto;
+    margin-bottom: 1rem;
+  }
+
+  .work__stack::before {
+    position: relative;
+    top: auto;
+    margin-right: auto;
+    margin-left: 0;
   }
 
   .contact {
