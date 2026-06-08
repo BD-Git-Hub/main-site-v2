@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bovin De Souza monogram">
+  <rect width="64" height="64" rx="16" fill="#05060b"/>
+  <circle cx="48" cy="16" r="20" fill="#4df4ff" opacity=".22"/>
+  <circle cx="16" cy="50" r="22" fill="#b86bff" opacity=".22"/>
+  <path fill="#f3f7ff" d="M18 16h17c7 0 12 4 12 10 0 4-2 7-6 8 5 1 8 5 8 10 0 7-5 11-13 11H18V16Zm10 15h6c3 0 5-2 5-4s-2-4-5-4h-6v8Zm0 17h7c4 0 6-2 6-5s-2-5-6-5h-7v10Z"/>
+</svg>

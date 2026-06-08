@@ -79,7 +79,7 @@ const buildParticleSource = async (): Promise<ParticleSource> => {
         continue;
       }
 
-      normalized.push(x / width - 0.5, 0.5 - y / height, (Math.random() - 0.5) * 0.18);
+      normalized.push(x / width - 0.5, 0.5 - y / height, (Math.random() - 0.5) * 0.34);
       colors.push(red, green, blue);
       seeds.push(Math.random());
     }
@@ -127,11 +127,11 @@ const startParticleHero = async () => {
   geometry.setAttribute("color", new THREE.BufferAttribute(source.colors, 3));
 
   const material = new THREE.PointsMaterial({
-    size: window.innerWidth < 720 ? 2.25 : 2.7,
+    size: window.innerWidth < 720 ? 2.15 : 2.9,
     sizeAttenuation: true,
     vertexColors: true,
     transparent: true,
-    opacity: 0.92,
+    opacity: 0.95,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
@@ -169,7 +169,7 @@ const startParticleHero = async () => {
       const i3 = i * 3;
       basePositions[i3] = source.normalized[i3] * planeWidth;
       basePositions[i3 + 1] = source.normalized[i3 + 1] * planeHeight;
-      basePositions[i3 + 2] = source.normalized[i3 + 2] * 180;
+      basePositions[i3 + 2] = source.normalized[i3 + 2] * 260;
       positions[i3] = basePositions[i3];
       positions[i3 + 1] = basePositions[i3 + 1];
       positions[i3 + 2] = basePositions[i3 + 2];
@@ -194,21 +194,24 @@ const startParticleHero = async () => {
     const motion = prefersReducedMotion ? 0.18 : 1;
     const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
     const positionArray = positionAttribute.array as Float32Array;
+    const pulse = Math.sin(time * 0.00028) * 0.018 * motion;
 
     for (let i = 0; i < source.count; i += 1) {
       const i3 = i * 3;
       const seed = source.seeds[i];
-      const wave = Math.sin(time * 0.001 + seed * 8.0) * 5.8 * motion;
-      const slowWave = Math.cos(time * 0.00052 + seed * 10.0) * 3.4 * motion;
+      const wave = Math.sin(time * 0.001 + seed * 8.0) * 7.2 * motion;
+      const slowWave = Math.cos(time * 0.00052 + seed * 10.0) * 4.6 * motion;
 
       positionArray[i3] = basePositions[i3] + pointer.x * (8 + seed * 16) * motion + slowWave;
       positionArray[i3 + 1] = basePositions[i3 + 1] + pointer.y * (6 + seed * 14) * motion + wave * 0.42;
-      positionArray[i3 + 2] = basePositions[i3 + 2] + wave;
+      positionArray[i3 + 2] = basePositions[i3 + 2] + wave + pointer.x * seed * 28 * motion;
     }
 
     positionAttribute.needsUpdate = true;
+    points.scale.setScalar(1 + pulse);
     points.rotation.y = pointer.x * 0.07 * motion;
     points.rotation.x = -pointer.y * 0.035 * motion;
+    points.rotation.z = Math.sin(time * 0.00018) * 0.006 * motion;
 
     renderer.render(scene, camera);
     animationFrame = window.requestAnimationFrame(render);

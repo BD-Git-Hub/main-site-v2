@@ -115,6 +115,7 @@ const process = [
         <div class="hero__glow hero__glow--cyan" aria-hidden="true"></div>
         <div class="hero__glow hero__glow--violet" aria-hidden="true"></div>
         <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__scanline" aria-hidden="true"></div>
       </div>
 
       <header class="site-header" aria-label="Primary navigation">
@@ -127,9 +128,10 @@ const process = [
           <a href="#work">Work</a>
           <a href="#contact">Contact</a>
         </nav>
+        <span class="site-header__progress" aria-hidden="true"></span>
       </header>
 
-      <div class="hero__content">
+      <div class="hero__content" data-reveal>
         <p class="eyebrow">Brighton-based developer / personal digital studio</p>
         <h1 id="hero-title">Designing sharp web systems with cinematic digital depth.</h1>
         <p class="hero__intro">
@@ -143,15 +145,34 @@ const process = [
         </div>
       </div>
 
-      <aside class="hero__signal" aria-label="Current focus">
+      <aside class="hero__signal" aria-label="Current focus" data-reveal style="--reveal-delay: 180ms">
         <span>Current focus</span>
         <strong>WebGL, AI workflows, commerce systems</strong>
       </aside>
+
+      <aside class="hero__hud" aria-label="Portfolio signals" data-reveal style="--reveal-delay: 260ms">
+        <div>
+          <span>Selected builds</span>
+          <strong>06</strong>
+        </div>
+        <div>
+          <span>Mode</span>
+          <strong>Independent studio</strong>
+        </div>
+        <div>
+          <span>Output</span>
+          <strong>Static / Vercel-ready</strong>
+        </div>
+      </aside>
+
+      <a class="hero__scroll" href="#intro" aria-label="Scroll to intro">
+        <span>Scroll</span>
+      </a>
     </section>
 
-    <section class="section intro" aria-labelledby="intro-title">
-      <div class="section__label">Intro / About</div>
-      <div class="intro__copy">
+    <section class="section intro" id="intro" aria-labelledby="intro-title">
+      <div class="section__label" data-reveal>Intro / About</div>
+      <div class="intro__copy" data-reveal>
         <h2 id="intro-title">A personal portfolio with agency-level polish.</h2>
         <p>
           Bovin De Souza is a Brighton-based developer building websites, product
@@ -161,16 +182,16 @@ const process = [
           exploring.
         </p>
       </div>
-      <div class="intro__stats" aria-label="Practice highlights">
-        <div>
+      <div class="intro__stats" aria-label="Practice highlights" data-reveal>
+        <div style="--reveal-delay: 80ms">
           <strong>4</strong>
           <span>Core disciplines</span>
         </div>
-        <div>
+        <div style="--reveal-delay: 140ms">
           <strong>6</strong>
           <span>Selected builds</span>
         </div>
-        <div>
+        <div style="--reveal-delay: 200ms">
           <strong>01</strong>
           <span>Independent studio mindset</span>
         </div>
@@ -178,15 +199,15 @@ const process = [
     </section>
 
     <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
-      <div class="section__label">Expertise</div>
-      <div class="section__heading">
+      <div class="section__label" data-reveal>Expertise</div>
+      <div class="section__heading" data-reveal>
         <p class="eyebrow">What I build</p>
         <h2 id="expertise-title">Digital systems with craft, clarity, and momentum.</h2>
       </div>
       <div class="expertise__grid">
         {
-          expertise.map((item) => (
-            <article class="expertise-card">
+          expertise.map((item, index) => (
+            <article class="expertise-card" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
               <span aria-hidden="true"></span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -197,8 +218,8 @@ const process = [
     </section>
 
     <section class="section work" id="work" aria-labelledby="work-title">
-      <div class="section__label">Selected work</div>
-      <div class="section__heading section__heading--split">
+      <div class="section__label" data-reveal>Selected work</div>
+      <div class="section__heading section__heading--split" data-reveal>
         <div>
           <p class="eyebrow">Outcomes over tech lists</p>
           <h2 id="work-title">Projects shaped around business value and user flow.</h2>
@@ -212,7 +233,7 @@ const process = [
       <div class="work__grid">
         {
           projects.map((project, index) => (
-            <article class="project-card" style={`--card-index: ${index + 1}`}>
+            <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --reveal-delay: ${(index % 3) * 90}ms`}>
               <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
                 <img src={project.image} alt={project.imageAlt} loading="lazy" />
               </a>
@@ -231,15 +252,15 @@ const process = [
     </section>
 
     <section class="section process" aria-labelledby="process-title">
-      <div class="section__label">Process</div>
-      <div class="section__heading">
+      <div class="section__label" data-reveal>Process</div>
+      <div class="section__heading" data-reveal>
         <p class="eyebrow">How ideas become shipped work</p>
         <h2 id="process-title">A simple path from first signal to live product.</h2>
       </div>
       <div class="process__timeline">
         {
-          process.map((item) => (
-            <article class="process-step">
+          process.map((item, index) => (
+            <article class="process-step" data-reveal style={`--reveal-delay: ${index * 85}ms`}>
               <span>{item.step}</span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -249,7 +270,7 @@ const process = [
       </div>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-title">
+    <section class="contact" id="contact" aria-labelledby="contact-title" data-reveal>
       <div class="contact__orb" aria-hidden="true"></div>
       <p class="eyebrow">Contact</p>
       <h2 id="contact-title">Have a build, product idea, or automation problem worth shaping?</h2>
@@ -258,4 +279,5 @@ const process = [
   </main>
 
   <script src="../scripts/particleHero.ts"></script>
+  <script src="../scripts/cinematicReveal.ts"></script>
 </BaseLayout>
