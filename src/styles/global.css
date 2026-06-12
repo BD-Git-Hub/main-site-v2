@@ -864,6 +864,8 @@ main {
 
 .work__track {
   position: relative;
+  margin-top: clamp(7rem, 18vh, 12rem);
+  padding-bottom: clamp(3rem, 8vh, 6rem);
   counter-reset: project;
 }
 
