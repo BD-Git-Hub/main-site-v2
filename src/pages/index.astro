@@ -404,36 +404,38 @@ const process = [
         </p>
       </div>
 
-      <div class="work__archive" aria-label="Selected work archive">
+      <div class="work__track" aria-label="Selected work scroll track">
         {
           projects.map((project, index) => (
-            <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --stack-index: ${index}; --reveal-delay: ${(index % 3) * 90}ms`}>
-              {
-                project.href ? (
-                  <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
-                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                  </a>
-                ) : (
-                  <div class="project-card__media project-card__media--static">
-                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                  </div>
-                )
-              }
-              <div class="project-card__body">
-                <p class="project-card__kicker">{project.kicker}</p>
-                <h3>
-                  {
-                    project.href ? (
-                      <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
-                    ) : (
-                      project.title
-                    )
-                  }
-                </h3>
-                <p>{project.outcome}</p>
-                <span>{project.signal}</span>
-              </div>
-            </article>
+            <div class="project-step" style={`--card-index: ${index + 1}`}>
+              <article class="project-card">
+                {
+                  project.href ? (
+                    <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
+                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                    </a>
+                  ) : (
+                    <div class="project-card__media project-card__media--static">
+                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                    </div>
+                  )
+                }
+                <div class="project-card__body">
+                  <p class="project-card__kicker">{project.kicker}</p>
+                  <h3>
+                    {
+                      project.href ? (
+                        <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
+                      ) : (
+                        project.title
+                      )
+                    }
+                  </h3>
+                  <p>{project.outcome}</p>
+                  <span>{project.signal}</span>
+                </div>
+              </article>
+            </div>
           ))
         }
       </div>

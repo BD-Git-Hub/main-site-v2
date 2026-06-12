@@ -862,48 +862,87 @@ main {
   width: min(100%, 1360px);
 }
 
-.work__archive {
+.work__track {
   position: relative;
-  display: grid;
-  gap: clamp(1.1rem, 2.3vw, 1.7rem);
   counter-reset: project;
 }
 
-.work__archive::before {
-  width: min(36rem, 70%);
-  height: 1px;
-  margin-left: auto;
-  content: "";
-  background: linear-gradient(90deg, transparent, rgba(77, 244, 255, 0.34));
+.project-step {
+  position: relative;
+  min-height: 108vh;
+  perspective: 1500px;
+  perspective-origin: 50% 48%;
+}
+
+.project-step:not(:last-child) {
+  margin-bottom: -12vh;
 }
 
 .project-card {
-  position: relative;
+  position: sticky;
+  top: clamp(5.25rem, 11vh, 7rem);
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.72fr);
-  min-height: clamp(28rem, 58vh, 40rem);
+  width: min(1120px, calc(100vw - (var(--pad) * 2)));
+  min-height: clamp(26rem, 66vh, 42rem);
+  margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 1.8rem;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 45%),
     var(--panel);
   overflow: hidden;
+  transform: translateX(-18vw) rotateY(-20deg);
+  transform-origin: left center;
   box-shadow:
-    0 1rem 0 rgba(255, 255, 255, 0.025),
-    0 2rem 70px rgba(0, 0, 0, 0.36);
+    1rem 0 0 rgba(255, 255, 255, 0.03),
+    2rem 0 0 rgba(77, 244, 255, 0.04),
+    0 2rem 90px rgba(0, 0, 0, 0.42);
   backdrop-filter: blur(22px);
   transition:
     border-color 220ms ease,
-    box-shadow 220ms ease,
-    transform 220ms ease;
+    box-shadow 220ms ease;
 }
 
-.project-card:nth-child(even) {
-  transform: translateX(clamp(0rem, 4vw, 3rem));
+.project-card:hover {
+  border-color: rgba(77, 244, 255, 0.28);
+  box-shadow:
+    1rem 0 0 rgba(255, 255, 255, 0.04),
+    2.2rem 0 0 rgba(77, 244, 255, 0.07),
+    0 2.6rem 120px rgba(77, 244, 255, 0.12);
 }
 
-.project-card:nth-child(odd) {
-  transform: translateX(clamp(-3rem, -4vw, 0rem));
+@supports (animation-timeline: view()) {
+  .project-card {
+    animation: project-card-pass linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+@keyframes project-card-pass {
+  0% {
+    opacity: 0;
+    transform: translate3d(-115vw, 0, 0) rotateY(-24deg) scale(0.94);
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 1;
+    transform: translate3d(0, 0, 90px) rotateY(-18deg) scale(1);
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(115vw, 0, 0) rotateY(-24deg) scale(0.94);
+  }
 }
 
 .project-card::before {
@@ -925,21 +964,6 @@ main {
   font-size: 0.72rem;
   font-weight: 900;
   backdrop-filter: blur(14px);
-}
-
-.project-card:hover {
-  border-color: rgba(77, 244, 255, 0.28);
-  box-shadow:
-    0 1rem 0 rgba(255, 255, 255, 0.035),
-    0 2.4rem 110px rgba(77, 244, 255, 0.11);
-}
-
-.project-card:nth-child(even):hover {
-  transform: translate(clamp(0rem, 4vw, 3rem), -0.45rem);
-}
-
-.project-card:nth-child(odd):hover {
-  transform: translate(clamp(-3rem, -4vw, 0rem), -0.45rem);
 }
 
 .project-card::after {
@@ -1173,6 +1197,12 @@ main {
     min-height: auto;
   }
 
+  .project-step {
+    min-height: auto;
+    margin-bottom: 1rem;
+    perspective: none;
+  }
+
   .intro__stats {
     grid-column: auto;
   }
@@ -1255,7 +1285,10 @@ main {
   }
 
   .project-card {
+    position: relative;
+    top: auto;
     transform: none !important;
+    animation: none !important;
     box-shadow: 0 24px 90px rgba(0, 0, 0, 0.22);
   }
 
@@ -1288,7 +1321,10 @@ main {
   }
 
   .project-card {
+    position: relative;
+    top: auto;
     transform: none !important;
+    animation: none !important;
   }
 
   .hero__scanline,
