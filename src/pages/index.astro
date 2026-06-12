@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const skillGroups = [
   {
-    title: "Interface engineering",
+    title: "Web",
     summary: "Front-end foundations for fast, expressive, maintainable web experiences.",
     skills: [
       { name: "HTML5", level: "3+ years" },
@@ -15,7 +15,7 @@ const skillGroups = [
     ],
   },
   {
-    title: "Delivery rhythm",
+    title: "Workflow",
     summary: "Working habits that keep projects structured, calm, and moving forward.",
     skills: [
       { name: "Time management", level: "Permanent" },
@@ -25,7 +25,7 @@ const skillGroups = [
     ],
   },
   {
-    title: "Spatial craft",
+    title: "3D",
     summary: "3D and motion tools for cinematic, visual-first digital presentation.",
     skills: [
       { name: "Autodesk Maya", level: "3 years" },
@@ -36,6 +36,13 @@ const skillGroups = [
     ],
   },
 ];
+
+const skillTiles = skillGroups.flatMap((group) =>
+  group.skills.map((skill) => ({
+    ...skill,
+    category: group.title,
+  })),
+);
 
 const projects = [
   {
@@ -307,29 +314,18 @@ const process = [
       <div class="section__label" data-reveal>Expertise + Skills</div>
       <div class="section__heading" data-reveal>
         <div>
-          <p class="eyebrow">Capability system</p>
-          <h2 id="expertise-title">Tools, habits, and visual craft working as one system.</h2>
+          <p class="eyebrow">Skill matrix</p>
+          <h2 id="expertise-title">Practical skills across web, workflow, and 3D.</h2>
         </div>
       </div>
-      <div class="skills__grid expertise__skills" aria-label="Skills toolkit">
+      <div class="skill-tiles expertise__skills" aria-label="Skills toolkit">
         {
-          skillGroups.map((group, groupIndex) => (
-            <article class="skill-panel" data-reveal style={`--reveal-delay: ${groupIndex * 90}ms`}>
-              <div class="skill-panel__header">
-                <span>0{groupIndex + 1}</span>
-                <h3>{group.title}</h3>
-                <p>{group.summary}</p>
-              </div>
-              <ul class="skill-panel__list" aria-label={group.title}>
-                {
-                  group.skills.map((skill) => (
-                    <li>
-                      <span>{skill.name}</span>
-                      <strong>{skill.level}</strong>
-                    </li>
-                  ))
-                }
-              </ul>
+          skillTiles.map((skill, index) => (
+            <article class="skill-tile" data-reveal style={`--reveal-delay: ${(index % 5) * 55}ms`}>
+              <span class="skill-tile__index">{String(index + 1).padStart(2, "0")}</span>
+              <p class="skill-tile__category">{skill.category}</p>
+              <h3>{skill.name}</h3>
+              <strong>{skill.level}</strong>
             </article>
           ))
         }
