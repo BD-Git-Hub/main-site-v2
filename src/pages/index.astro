@@ -1,25 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const expertise = [
-  {
-    title: "Web experiences",
-    text: "Fast, expressive interfaces that make a brand feel alive while staying clear, usable, and easy to maintain.",
-  },
-  {
-    title: "Commerce and content systems",
-    text: "Shopfronts, WordPress builds, Magento ecosystems, and structured content flows built around real customer journeys.",
-  },
-  {
-    title: "Automation and AI tools",
-    text: "Practical systems that reduce repetitive work, connect services, and turn product ideas into useful workflows.",
-  },
-  {
-    title: "3D and interactive visuals",
-    text: "Immersive details, motion, and WebGL moments that give digital products a more cinematic sense of presence.",
-  },
-];
-
 const skillGroups = [
   {
     title: "Web skills",
@@ -326,27 +307,11 @@ const process = [
 
     <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
       <div class="section__label" data-reveal>Expertise + Skills</div>
-      <div class="section__heading section__heading--split" data-reveal>
+      <div class="section__heading" data-reveal>
         <div>
-          <p class="eyebrow">What I build, and what I build with</p>
-          <h2 id="expertise-title">Digital systems with craft, clarity, and momentum.</h2>
+          <p class="eyebrow">Core capabilities</p>
+          <h2 id="expertise-title">A focused toolkit for useful, immersive digital products.</h2>
         </div>
-        <p>
-          Expertise is the outcome: web experiences, commerce systems,
-          automation tools, and interactive visuals. Skills are the practical
-          tools that make those outcomes possible.
-        </p>
-      </div>
-      <div class="expertise__grid">
-        {
-          expertise.map((item, index) => (
-            <article class="expertise-card" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
-              <span aria-hidden="true"></span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))
-        }
       </div>
       <div class="skills__grid expertise__skills" aria-label="Skills toolkit">
         {
@@ -376,7 +341,7 @@ const process = [
     <section class="section intro" id="about" aria-labelledby="about-title">
       <div class="section__label" data-reveal>About</div>
       <div class="intro__copy" data-reveal>
-        <h2 id="about-title">A personal portfolio with agency-level polish.</h2>
+        <h2 id="about-title">Brighton-based, building digital products with depth.</h2>
         <p>
           Bovin De Souza is a Brighton-based developer building websites, product
           interfaces, automation tools, and interactive visual systems. The work

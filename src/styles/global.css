@@ -519,7 +519,6 @@ main {
 }
 
 .intro__stats div,
-.expertise-card,
 .skill-panel,
 .project-card,
 .process-step {
@@ -690,57 +689,6 @@ main {
   backdrop-filter: blur(14px);
 }
 
-.expertise__grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.expertise-card {
-  position: relative;
-  min-height: 21rem;
-  padding: 1.25rem;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  transition:
-    border-color 220ms ease,
-    transform 220ms ease,
-    background 220ms ease;
-}
-
-.expertise-card::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background: radial-gradient(circle at 40% 0%, rgba(77, 244, 255, 0.18), transparent 42%);
-  opacity: 0;
-  transition: opacity 220ms ease;
-}
-
-.expertise-card:hover::before {
-  opacity: 1;
-}
-
-.expertise-card:hover {
-  border-color: rgba(77, 244, 255, 0.28);
-  background:
-    linear-gradient(145deg, rgba(77, 244, 255, 0.1), transparent 48%),
-    var(--panel-strong);
-  transform: translateY(-4px);
-}
-
-.expertise-card span {
-  display: block;
-  width: 3rem;
-  height: 3rem;
-  border: 1px solid rgba(77, 244, 255, 0.44);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 35% 35%, var(--cyan), transparent 22%),
-    rgba(77, 244, 255, 0.06);
-}
-
-.expertise-card h3,
 .project-card h3,
 .process-step h3 {
   position: relative;
@@ -749,7 +697,6 @@ main {
   line-height: 1.05;
 }
 
-.expertise-card p,
 .skill-panel p,
 .project-card p,
 .process-step p {
@@ -1213,7 +1160,6 @@ main {
     grid-column: auto;
   }
 
-  .expertise__grid,
   .skills__grid,
   .process__timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1261,7 +1207,6 @@ main {
   }
 
   .intro__stats,
-  .expertise__grid,
   .skills__grid,
   .process__timeline {
     grid-template-columns: 1fr;
