@@ -882,11 +882,11 @@ main {
 
 .project-card {
   position: sticky;
-  top: clamp(7.25rem, 15vh, 9.5rem);
+  top: clamp(9.5rem, 20vh, 13rem);
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.72fr);
   width: min(1120px, calc(100vw - (var(--pad) * 2)));
-  min-height: clamp(24rem, 60vh, 38rem);
+  min-height: clamp(22rem, 52vh, 34rem);
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 1.8rem;
