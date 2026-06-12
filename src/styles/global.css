@@ -871,13 +871,13 @@ main {
 
 .project-step {
   position: relative;
-  min-height: 108vh;
+  min-height: 82vh;
   perspective: 1500px;
   perspective-origin: 50% 48%;
 }
 
 .project-step:not(:last-child) {
-  margin-bottom: -12vh;
+  margin-bottom: -26vh;
 }
 
 .project-card {
