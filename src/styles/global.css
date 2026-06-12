@@ -813,31 +813,21 @@ main {
   width: min(100%, 1360px);
 }
 
-.work__track {
+.work__showcase {
   position: relative;
   margin-top: clamp(7rem, 18vh, 12rem);
   padding-bottom: clamp(3rem, 8vh, 6rem);
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
   counter-reset: project;
 }
 
-.project-step {
-  position: relative;
-  min-height: 82vh;
-  perspective: 1500px;
-  perspective-origin: 50% 48%;
-}
-
-.project-step:not(:last-child) {
-  margin-bottom: -26vh;
-}
-
 .project-card {
-  position: sticky;
-  top: clamp(12.5rem, 28vh, 17rem);
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.72fr);
-  width: min(1120px, calc(100vw - (var(--pad) * 2)));
-  min-height: clamp(19rem, 44vh, 30rem);
+  width: min(1160px, 100%);
+  min-height: clamp(25rem, 58vh, 38rem);
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 1.8rem;
@@ -845,57 +835,45 @@ main {
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 45%),
     var(--panel);
   overflow: hidden;
-  transform: translateX(-18vw) rotateY(-20deg);
   transform-origin: left center;
   box-shadow:
-    1rem 0 0 rgba(255, 255, 255, 0.03),
-    2rem 0 0 rgba(77, 244, 255, 0.04),
-    0 2rem 90px rgba(0, 0, 0, 0.42);
+    0 1rem 0 rgba(255, 255, 255, 0.025),
+    0 2rem 84px rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(22px);
   transition:
     border-color 220ms ease,
+    transform 220ms ease,
     box-shadow 220ms ease;
+}
+
+.project-card:nth-child(even) {
+  margin-right: 0;
+}
+
+.project-card:nth-child(odd) {
+  margin-left: 0;
+}
+
+.project-card[data-reveal] {
+  opacity: 0;
+  transform: translate3d(-4rem, 2rem, 0) rotateZ(-1.2deg);
+}
+
+.project-card:nth-child(even)[data-reveal] {
+  transform: translate3d(4rem, 2rem, 0) rotateZ(1.2deg);
+}
+
+.project-card[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateZ(0deg);
 }
 
 .project-card:hover {
   border-color: rgba(77, 244, 255, 0.28);
+  transform: translateY(-0.45rem);
   box-shadow:
-    1rem 0 0 rgba(255, 255, 255, 0.04),
-    2.2rem 0 0 rgba(77, 244, 255, 0.07),
-    0 2.6rem 120px rgba(77, 244, 255, 0.12);
-}
-
-@supports (animation-timeline: view()) {
-  .project-card {
-    animation: project-card-pass linear both;
-    animation-timeline: view(block);
-    animation-range: entry 0% exit 100%;
-  }
-}
-
-@keyframes project-card-pass {
-  0% {
-    opacity: 0;
-    transform: translate3d(-115vw, 0, 0) rotateY(-24deg) scale(0.94);
-  }
-
-  16% {
-    opacity: 1;
-  }
-
-  48% {
-    opacity: 1;
-    transform: translate3d(0, 0, 90px) rotateY(-18deg) scale(1);
-  }
-
-  82% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(115vw, 0, 0) rotateY(-24deg) scale(0.94);
-  }
+    0 1.15rem 0 rgba(255, 255, 255, 0.035),
+    0 2.6rem 110px rgba(77, 244, 255, 0.12);
 }
 
 .project-card::before {
@@ -1148,12 +1126,6 @@ main {
 
   .project-card {
     min-height: auto;
-  }
-
-  .project-step {
-    min-height: auto;
-    margin-bottom: 1rem;
-    perspective: none;
   }
 
   .intro__stats {
