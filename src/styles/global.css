@@ -768,6 +768,10 @@ main {
   gap: clamp(1rem, 2vw, 1.35rem);
 }
 
+.expertise__skills {
+  margin-top: clamp(1.2rem, 4vw, 2.2rem);
+}
+
 .skill-panel {
   position: relative;
   display: grid;

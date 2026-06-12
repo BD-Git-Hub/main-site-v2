@@ -209,7 +209,7 @@ const process = [
 ---
 
 <BaseLayout>
-  <a class="skip-link" href="#intro">Skip to main content</a>
+  <a class="skip-link" href="#work">Skip to selected work</a>
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero__bg">
@@ -242,9 +242,9 @@ const process = [
           <span>De Souza</span>
         </a>
         <nav class="site-header__nav">
-          <a href="#expertise">Expertise</a>
-          <a href="#skills">Skills</a>
           <a href="#work">Work</a>
+          <a href="#expertise">Expertise</a>
+          <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
         <span class="site-header__progress" aria-hidden="true"></span>
@@ -269,15 +269,114 @@ const process = [
         <strong>WebGL, AI workflows, commerce systems</strong>
       </aside>
 
-      <a class="hero__scroll" href="#intro" aria-label="Scroll to intro">
+      <a class="hero__scroll" href="#work" aria-label="Scroll to selected work">
         <span>Scroll</span>
       </a>
     </section>
 
-    <section class="section intro" id="intro" aria-labelledby="intro-title">
-      <div class="section__label" data-reveal>Intro / About</div>
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="section__label" data-reveal>Selected work</div>
+      <div class="section__heading section__heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Outcomes over tech lists</p>
+          <h2 id="work-title">Projects shaped around business value and user flow.</h2>
+        </div>
+        <p>
+          A stable archive of selected builds, from automation concepts to
+          commerce systems and interactive products.
+        </p>
+      </div>
+
+      <div class="work__track" aria-label="Selected work scroll track">
+        {
+          projects.map((project, index) => (
+            <div class="project-step" style={`--card-index: ${index + 1}`}>
+              <article class="project-card">
+                {
+                  project.href ? (
+                    <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
+                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                    </a>
+                  ) : (
+                    <div class="project-card__media project-card__media--static">
+                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
+                    </div>
+                  )
+                }
+                <div class="project-card__body">
+                  <p class="project-card__kicker">{project.kicker}</p>
+                  <h3>
+                    {
+                      project.href ? (
+                        <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
+                      ) : (
+                        project.title
+                      )
+                    }
+                  </h3>
+                  <p>{project.outcome}</p>
+                  <span>{project.signal}</span>
+                </div>
+              </article>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
+      <div class="section__label" data-reveal>Expertise + Skills</div>
+      <div class="section__heading section__heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">What I build, and what I build with</p>
+          <h2 id="expertise-title">Digital systems with craft, clarity, and momentum.</h2>
+        </div>
+        <p>
+          Expertise is the outcome: web experiences, commerce systems,
+          automation tools, and interactive visuals. Skills are the practical
+          tools that make those outcomes possible.
+        </p>
+      </div>
+      <div class="expertise__grid">
+        {
+          expertise.map((item, index) => (
+            <article class="expertise-card" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+              <span aria-hidden="true"></span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="skills__grid expertise__skills" aria-label="Skills toolkit">
+        {
+          skillGroups.map((group, groupIndex) => (
+            <article class="skill-panel" data-reveal style={`--reveal-delay: ${groupIndex * 90}ms`}>
+              <div class="skill-panel__header">
+                <span>0{groupIndex + 1}</span>
+                <h3>{group.title}</h3>
+                <p>{group.summary}</p>
+              </div>
+              <ul class="skill-panel__list" aria-label={group.title}>
+                {
+                  group.skills.map((skill) => (
+                    <li>
+                      <span>{skill.name}</span>
+                      <strong>{skill.level}</strong>
+                    </li>
+                  ))
+                }
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section intro" id="about" aria-labelledby="about-title">
+      <div class="section__label" data-reveal>About</div>
       <div class="intro__copy" data-reveal>
-        <h2 id="intro-title">A personal portfolio with agency-level polish.</h2>
+        <h2 id="about-title">A personal portfolio with agency-level polish.</h2>
         <p>
           Bovin De Souza is a Brighton-based developer building websites, product
           interfaces, automation tools, and interactive visual systems. The work
@@ -336,108 +435,6 @@ const process = [
             ))
           }
         </div>
-      </div>
-    </section>
-
-    <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
-      <div class="section__label" data-reveal>Expertise</div>
-      <div class="section__heading" data-reveal>
-        <p class="eyebrow">What I build</p>
-        <h2 id="expertise-title">Digital systems with craft, clarity, and momentum.</h2>
-      </div>
-      <div class="expertise__grid">
-        {
-          expertise.map((item, index) => (
-            <article class="expertise-card" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
-              <span aria-hidden="true"></span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section skills" id="skills" aria-labelledby="skills-title">
-      <div class="section__label" data-reveal>Skills</div>
-      <div class="section__heading section__heading--split" data-reveal>
-        <div>
-          <p class="eyebrow">Core capabilities</p>
-          <h2 id="skills-title">Skills that support clear, interactive builds.</h2>
-        </div>
-      </div>
-      <div class="skills__grid">
-        {
-          skillGroups.map((group, groupIndex) => (
-            <article class="skill-panel" data-reveal style={`--reveal-delay: ${groupIndex * 90}ms`}>
-              <div class="skill-panel__header">
-                <span>0{groupIndex + 1}</span>
-                <h3>{group.title}</h3>
-                <p>{group.summary}</p>
-              </div>
-              <ul class="skill-panel__list" aria-label={group.title}>
-                {
-                  group.skills.map((skill) => (
-                    <li>
-                      <span>{skill.name}</span>
-                      <strong>{skill.level}</strong>
-                    </li>
-                  ))
-                }
-              </ul>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section work" id="work" aria-labelledby="work-title">
-      <div class="section__label" data-reveal>Selected work</div>
-      <div class="section__heading section__heading--split" data-reveal>
-        <div>
-          <p class="eyebrow">Outcomes over tech lists</p>
-          <h2 id="work-title">Projects shaped around business value and user flow.</h2>
-        </div>
-        <p>
-          A stable archive of selected builds, from automation concepts to
-          commerce systems and interactive products.
-        </p>
-      </div>
-
-      <div class="work__track" aria-label="Selected work scroll track">
-        {
-          projects.map((project, index) => (
-            <div class="project-step" style={`--card-index: ${index + 1}`}>
-              <article class="project-card">
-                {
-                  project.href ? (
-                    <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
-                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                    </a>
-                  ) : (
-                    <div class="project-card__media project-card__media--static">
-                      <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                    </div>
-                  )
-                }
-                <div class="project-card__body">
-                  <p class="project-card__kicker">{project.kicker}</p>
-                  <h3>
-                    {
-                      project.href ? (
-                        <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
-                      ) : (
-                        project.title
-                      )
-                    }
-                  </h3>
-                  <p>{project.outcome}</p>
-                  <span>{project.signal}</span>
-                </div>
-              </article>
-            </div>
-          ))
-        }
       </div>
     </section>
 
