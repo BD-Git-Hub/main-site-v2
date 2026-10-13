@@ -1,424 +1,267 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const skillGroups = [
+const featuredProjects = [
   {
-    title: "Web",
-    summary: "Front-end foundations for fast, expressive, maintainable web experiences.",
-    skills: [
-      { name: "HTML5", level: "3+ years" },
-      { name: "CSS3", level: "3+ years" },
-      { name: "JavaScript", level: "3+ years" },
-      { name: "jQuery", level: "3+ years" },
-      { name: "PHP", level: "3+ years" },
-      { name: "Photoshop", level: "3+ years" },
-    ],
-  },
-  {
-    title: "Workflow",
-    summary: "Working habits that keep projects structured, calm, and moving forward.",
-    skills: [
-      { name: "Time management", level: "Permanent" },
-      { name: "Fluent English", level: "Permanent" },
-      { name: "High work ethic", level: "Permanent" },
-      { name: "Team player", level: "Permanent" },
-    ],
-  },
-  {
-    title: "3D",
-    summary: "3D and motion tools for cinematic, visual-first digital presentation.",
-    skills: [
-      { name: "Autodesk Maya", level: "3 years" },
-      { name: "ZBrush", level: "3 years" },
-      { name: "After Effects", level: "2 years" },
-      { name: "Substance Painter", level: "2 years" },
-      { name: "Unity", level: "1 year" },
-    ],
-  },
-];
-
-const skillTiles = skillGroups.flatMap((group) =>
-  group.skills.map((skill) => ({
-    ...skill,
-    category: group.title,
-  })),
-);
-
-const projects = [
-  {
-    title: "Automate Me",
-    image: "/media/images/projectimg/automate-me-placeholder.svg",
-    imageAlt: "Automate Me mobile automation concept preview",
-    kicker: "Mobile automation concept",
-    outcome:
-      "An in-progress mobile application concept focused on reducing repetitive tasks and turning everyday automation ideas into a usable product flow.",
-    signal: "Mobile / Automation / In build",
-  },
-  {
-    title: "Cut To Size",
-    href: "https://cuttosize.co.uk/",
-    image: "/media/images/projectimg/Cuttosize.webp",
-    imageAlt: "Cut To Size website preview",
-    kicker: "Conversion-led trade website",
-    outcome:
-      "A focused web presence for a precision wood cutting supplier, helping trade customers move quickly from discovery to quote request or price-list download.",
-    signal: "AWS hosting / Quote journey / Trade clarity",
-  },
-  {
+    number: "01",
     title: "Cut My",
+    category: "E-commerce",
     href: "https://www.cutmy.co.uk/",
     image: "/media/images/projectimg/cutMy.webp",
-    imageAlt: "Cut My website preview",
-    kicker: "Custom materials commerce",
-    outcome:
-      "A cut-to-size DIY materials store shaped around a simpler buying path for custom plastic and wood products across a Magento and AWS stack.",
-    signal: "Magento / Microservices / Product ordering",
+    imageAlt: "Cut My ecommerce website preview",
+    description:
+      "A cut-to-size DIY materials store that makes ordering custom plastic and wood simpler across a Magento and AWS stack.",
+    tags: ["Magento", "AWS", "Microservices"],
   },
   {
-    title: "Echelon Estates",
-    href: "https://site4.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/EchelonEstates.webp",
-    imageAlt: "Echelon Estates website preview",
-    kicker: "Luxury property listings",
-    outcome:
-      "A polished property platform with reusable listing templates, CSV imports, and search-ready content patterns for high-end real estate presentation.",
-    signal: "WordPress / ACF / SEO structure",
-  },
-  {
-    title: "Basket & Co",
-    href: "https://site3.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/basket&Co.webp",
-    imageAlt: "Basket & Co ecommerce website preview",
-    kicker: "Everyday essentials storefront",
-    outcome:
-      "A WooCommerce experience with category browsing, cart, checkout, test payments, analytics visibility, and content blocks that support ongoing merchandising.",
-    signal: "WooCommerce / Checkout / Analytics",
-  },
-  {
+    number: "02",
     title: "FilmFlick",
+    category: "Movie discovery",
     href: "https://movies-project-vue-8ql2.vercel.app/home",
     image: "/media/images/projectimg/moviesSiteImg.webp",
     imageAlt: "FilmFlick movie discovery website preview",
-    kicker: "Movie discovery product",
-    outcome:
-      "A responsive Vue app for searching films, filtering by genre, viewing ratings and trailers, and managing watchlist-style interactions from live movie data.",
-    signal: "Vue / TMDB API / Responsive UI",
+    description:
+      "A Vue movie discovery platform for searching films, filtering by genre, viewing ratings, watching trailers, and exploring live TMDB data.",
+    tags: ["Vue", "TMDB API", "Responsive UI"],
   },
   {
-    title: "Macros Calculator",
-    href: "https://macro-calculator-website.vercel.app/",
-    image: "/media/images/projectimg/macrosCalculatorSiteImg.webp",
-    imageAlt: "Macros Calculator website preview",
-    kicker: "Personal nutrition tracker",
-    outcome:
-      "A React tool for logging daily carbs, protein, and fats with account access, saved entries, and automatic logout for safer personal tracking.",
-    signal: "React / Firebase / Auth flow",
+    number: "03",
+    title: "Automate Me",
+    category: "Mobile app concept",
+    image: "/media/images/projectimg/automate-me-placeholder.svg",
+    imageAlt: "Automate Me mobile automation concept preview",
+    description:
+      "An in-progress mobile application concept focused on reducing repetitive tasks and turning everyday automation ideas into a usable product flow.",
+    tags: ["UI/UX", "Mobile App", "Product Design"],
+  },
+];
+
+const technologyGroups = [
+  {
+    title: "Frontend",
+    tools: ["HTML5", "CSS3", "JavaScript", "React", "Vue"],
   },
   {
-    title: "Suits and Styles",
-    href: "https://site1.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/SuitsAndStyles.webp",
-    imageAlt: "Suits and Styles WordPress website preview",
-    kicker: "Tailoring brand website",
-    outcome:
-      "A business site for a tailoring brand, designed around service discovery, brand story, and simple enquiry paths for prospective customers.",
-    signal: "WordPress / Elementor / Enquiries",
+    title: "Backend",
+    tools: ["PHP", "Node.js", "SQL", "REST", "Firebase"],
   },
   {
-    title: "Taste Travel",
-    href: "https://site2.bovin-desouza-wordpress.com/",
-    image: "/media/images/projectimg/tasteTravel.webp",
-    imageAlt: "Taste Travel WordPress website preview",
-    kicker: "Travel content platform",
-    outcome:
-      "A destination-led travel blog with structured navigation, location pages, newsletter signup, and enquiry routes for ongoing content publishing.",
-    signal: "WordPress / Content model / Newsletter",
+    title: "CMS & Tools",
+    tools: ["WordPress", "Elementor", "Sass", "Git", "AWS"],
   },
   {
-    title: "3D Portfolio Website",
+    title: "Other",
+    tools: ["Photoshop", "Maya", "ZBrush", "Unity", "After Effects"],
+  },
+];
+
+const beyondCards = [
+  {
+    title: "Gym",
+    subtitle: "Training and fitness",
+    image: "/media/images/me/me.webp",
+  },
+  {
+    title: "Photography",
+    subtitle: "Exploring new places",
+    image: "/media/images/me/me3.webp",
+  },
+  {
+    title: "Gaming",
+    subtitle: "World of Warcraft",
+    image: "/media/images/projectimg/moviesSiteImg.webp",
+  },
+  {
+    title: "3D & Creative",
+    subtitle: "Personal projects",
     image: "/media/images/projectimg/3DsiteImg.webp",
-    imageAlt: "3D portfolio website preview",
-    kicker: "Interactive 3D showcase",
-    outcome:
-      "A visual portfolio experiment built to demonstrate 3D production skills and create a more graphical viewing experience for interactive work.",
-    signal: "3D visuals / Portfolio concept / Not hosted",
   },
 ];
 
-const routine = [
-  { time: "4:00 AM", label: "Wake up" },
-  { time: "6:00 AM", label: "Gym" },
-  { time: "9:00 AM", label: "Work" },
-  { time: "2:00 PM", label: "Lunch" },
-  { time: "5:00 PM", label: "Social" },
-  { time: "10:00 PM", label: "Sleep" },
-];
-
-const lifePhotos = [
-  {
-    src: "/media/images/me/me.webp",
-    alt: "Bovin scuba diving",
-    caption: "Exploration",
-  },
-  {
-    src: "/media/images/me/me2.webp",
-    alt: "Bovin graduating",
-    caption: "Progress",
-  },
-  {
-    src: "/media/images/me/me3.webp",
-    alt: "Bovin at Eastbourne Airbourne",
-    caption: "Balance",
-  },
-];
-
-const process = [
-  {
-    step: "01",
-    title: "Discover",
-    text: "Understand the goal, audience, constraints, and the moment where the experience needs to feel effortless.",
-  },
-  {
-    step: "02",
-    title: "Shape",
-    text: "Turn the idea into a focused direction: visual rhythm, content structure, interaction model, and technical route.",
-  },
-  {
-    step: "03",
-    title: "Build",
-    text: "Create the interface, systems, and motion details with clean implementation and practical deployment in mind.",
-  },
-  {
-    step: "04",
-    title: "Launch",
-    text: "Prepare the final static build, test the experience, and ship a site that can keep evolving after release.",
-  },
+const workflowNodes = [
+  { title: "Design", text: "UI / UX", className: "workflow-node--design" },
+  { title: "Frontend", text: "React, Vue, JS", className: "workflow-node--frontend" },
+  { title: "Backend", text: "PHP, Node.js", className: "workflow-node--backend" },
+  { title: "CMS", text: "WordPress", className: "workflow-node--cms" },
+  { title: "Deploy", text: "Vercel, AWS", className: "workflow-node--deploy" },
+  { title: "Modern Web Experiences", text: "Final output", className: "workflow-node--output" },
 ];
 ---
 
 <BaseLayout>
-  <a class="skip-link" href="#work">Skip to selected work</a>
-  <main>
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__bg">
-        <div class="hero__fallback" aria-hidden="true">
-          <img src="/media/images/coverartimg/lightbluesky.png" alt="" />
-          <img src="/media/images/coverartimg/smallmoon.png" alt="" />
-          <img src="/media/images/coverartimg/biggermoon.png" alt="" />
-          <img src="/media/images/coverartimg/pinkbackgroundcloud.png" alt="" />
-          <img src="/media/images/coverartimg/purplebackgroundcloud.png" alt="" />
-          <img src="/media/images/coverartimg/blueocean.png" alt="" />
-          <img src="/media/images/coverartimg/people.png" alt="" />
-          <img src="/media/images/coverartimg/piergrinds.png" alt="" />
-          <img src="/media/images/coverartimg/orangesands.png" alt="" />
-          <img src="/media/images/coverartimg/darkerorange.png" alt="" />
-          <img src="/media/images/coverartimg/big%20birds.png" alt="" />
-          <img src="/media/images/coverartimg/medium%20birds.png" alt="" />
-          <img src="/media/images/coverartimg/small%20birds.png" alt="" />
-          <img src="/media/images/coverartimg/pier.png" alt="" />
-        </div>
-        <canvas id="particle-hero" class="hero__canvas" aria-hidden="true"></canvas>
-        <div class="hero__glow hero__glow--cyan" aria-hidden="true"></div>
-        <div class="hero__glow hero__glow--violet" aria-hidden="true"></div>
-        <div class="hero__grid" aria-hidden="true"></div>
-        <div class="hero__scanline" aria-hidden="true"></div>
-      </div>
+  <main class="redesign-shell">
+    <div class="light-field" aria-hidden="true">
+      <span class="light-trail light-trail--hero"></span>
+      <span class="light-trail light-trail--mid"></span>
+      <span class="light-trail light-trail--footer"></span>
+    </div>
 
-      <header class="site-header" aria-label="Primary navigation">
-        <a class="site-header__brand" href="#top" aria-label="Bovin De Souza home">
-          <span>Bovin</span>
-          <span>De Souza</span>
-        </a>
-        <nav class="site-header__nav">
-          <a href="#work">Work</a>
-          <a href="#expertise">Expertise</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <span class="site-header__progress" aria-hidden="true"></span>
-      </header>
-
-      <div class="hero__content" data-reveal>
-        <p class="eyebrow">Brighton-based developer / personal digital studio</p>
-        <h1 id="hero-title">Designing sharp web systems with cinematic digital depth.</h1>
-        <p class="hero__intro">
-          I am Bovin De Souza, a developer creating premium web experiences,
-          automation tools, 3D interactions, and digital products that feel calm,
-          useful, and future-facing.
-        </p>
-        <div class="hero__actions" aria-label="Hero calls to action">
-          <a class="button button--primary" href="#work">View selected work</a>
-          <a class="button button--ghost" href="#expertise">Explore expertise</a>
-        </div>
-      </div>
-
-      <aside class="hero__signal" aria-label="Current focus" data-reveal style="--reveal-delay: 180ms">
-        <span>Current focus</span>
-        <strong>WebGL, AI workflows, commerce systems</strong>
-      </aside>
-
-      <a class="hero__scroll" href="#work" aria-label="Scroll to selected work">
-        <span>Scroll</span>
+    <header class="redesign-nav" aria-label="Primary navigation">
+      <a class="redesign-brand" href="#top" aria-label="Bovin De Souza home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Bovin De Souza</span>
       </a>
-    </section>
+      <nav class="redesign-nav__links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#beyond">Beyond the desk</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="nav-cta" href="mailto:bovindesouza@gmail.com">Let's talk &rarr;</a>
+    </header>
 
-    <section class="section work" id="work" aria-labelledby="work-title">
-      <div class="section__label" data-reveal>Selected work</div>
-      <div class="section__heading section__heading--split" data-reveal>
-        <div>
-          <p class="eyebrow">Outcomes over tech lists</p>
-          <h2 id="work-title">Projects shaped around business value and user flow.</h2>
-        </div>
+    <section class="redesign-hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy" data-reveal>
+        <p class="status-badge">Web developer / Digital creator</p>
+        <h1 id="hero-title">
+          I build digital experiences that <em>connect people.</em>
+        </h1>
         <p>
-          A stable archive of selected builds, from automation concepts to
-          commerce systems and interactive products.
+          Full-stack web developer focused on creating modern, high-performing
+          websites and web applications. I turn ideas into digital experiences
+          that are practical, user-focused and built to grow.
         </p>
+        <div class="hero-actions">
+          <a class="button-lime" href="#portfolio">View my work &rarr;</a>
+          <a class="button-ghost" href="/BovinDeSouzaCV.pdf" download>Download CV &darr;</a>
+        </div>
+        <p class="status-line"><span></span> Based in Brighton · Open to opportunities</p>
       </div>
 
-      <div class="work__showcase" aria-label="Selected work showcase">
-        {
-          projects.map((project, index) => (
-            <article class="project-card" data-reveal style={`--card-index: ${index + 1}; --reveal-delay: ${(index % 2) * 80}ms`}>
-              {
-                project.href ? (
-                  <a class="project-card__media" href={project.href} target="_blank" rel="noreferrer">
-                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                  </a>
-                ) : (
-                  <div class="project-card__media project-card__media--static">
-                    <img src={project.image} alt={project.imageAlt} loading="lazy" />
-                  </div>
-                )
-              }
-              <div class="project-card__body">
-                <p class="project-card__kicker">{project.kicker}</p>
-                <h3>
-                  {
-                    project.href ? (
-                      <a href={project.href} target="_blank" rel="noreferrer">{project.title}</a>
-                    ) : (
-                      project.title
-                    )
-                  }
-                </h3>
-                <p>{project.outcome}</p>
-                <span>{project.signal}</span>
+      <div class="workflow-dashboard" data-reveal style="--reveal-delay: 160ms">
+        <div class="workflow-dashboard__top">
+          <span>Turning ideas into digital experiences</span>
+          <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+        </div>
+        <svg class="workflow-lines" viewBox="0 0 680 420" aria-hidden="true">
+          <path d="M175 120 C260 72 322 94 344 186" />
+          <path d="M505 120 C440 76 377 94 344 186" />
+          <path d="M155 286 C248 318 314 286 344 218" />
+          <path d="M344 218 C388 284 470 304 548 262" />
+          <path d="M344 186 C404 188 458 198 548 205" />
+        </svg>
+        <div class="workflow-hub" aria-hidden="true"><span>◆</span></div>
+        {workflowNodes.map((node) => (
+          <div class={`workflow-node ${node.className}`}>
+            <span>{node.title}</span>
+            <strong>{node.text}</strong>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="redesign-section portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
+      <div class="section-kicker">01. Selected work</div>
+      <div class="section-heading-row">
+        <h2 id="portfolio-title">A few things I've brought <em>to life.</em></h2>
+        <a class="button-outline" href="#contact">View all projects &rarr;</a>
+      </div>
+      <div class="project-grid">
+        {featuredProjects.map((project) => (
+          <article class="feature-card" data-reveal>
+            <div class="feature-card__meta">
+              <span>{project.number}</span>
+              <p>{project.title} — {project.category}</p>
+              {project.href && <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Open ${project.title}`}>↗</a>}
+            </div>
+            <a class="feature-card__image" href={project.href ?? "#contact"} target={project.href ? "_blank" : undefined} rel={project.href ? "noreferrer" : undefined}>
+              <img src={project.image} alt={project.imageAlt} loading="lazy" />
+            </a>
+            <div class="feature-card__body">
+              <p>{project.description}</p>
+              <div>
+                {project.tags.map((tag) => <span>{tag}</span>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="redesign-section skills-section" id="skills" aria-labelledby="skills-title">
+      <div class="section-kicker">02. Technologies I work with</div>
+      <div class="skills-layout">
+        <div class="skills-copy" data-reveal>
+          <h2 id="skills-title">Technologies <em>I work with.</em></h2>
+          <p>
+            A combination of front-end, back-end and creative skills to build
+            complete digital solutions.
+          </p>
+          <a class="button-outline" href="#contact">View full list &rarr;</a>
+        </div>
+        <div class="tech-grid">
+          {technologyGroups.map((group, index) => (
+            <article class="tech-card" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+              <h3><span></span>{group.title}</h3>
+              <div>
+                {group.tools.map((tool) => <span class="tech-pill">{tool}</span>)}
               </div>
             </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section expertise" id="expertise" aria-labelledby="expertise-title">
-      <div class="section__label" data-reveal>Expertise + Skills</div>
-      <div class="section__heading" data-reveal>
-        <div>
-          <p class="eyebrow">Skill matrix</p>
-          <h2 id="expertise-title">Practical skills across web, workflow, and 3D.</h2>
-        </div>
-      </div>
-      <div class="skill-tiles expertise__skills" aria-label="Skills toolkit">
-        {
-          skillTiles.map((skill, index) => (
-            <article class="skill-tile" data-reveal style={`--reveal-delay: ${(index % 5) * 55}ms`}>
-              <span class="skill-tile__index">{String(index + 1).padStart(2, "0")}</span>
-              <p class="skill-tile__category">{skill.category}</p>
-              <h3>{skill.name}</h3>
-              <strong>{skill.level}</strong>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section intro" id="about" aria-labelledby="about-title">
-      <div class="section__label" data-reveal>About</div>
-      <div class="intro__copy" data-reveal>
-        <h2 id="about-title">Brighton-based, building digital products with depth.</h2>
-        <p>
-          Bovin De Souza is a Brighton-based developer building websites, product
-          interfaces, automation tools, and interactive visual systems. The work
-          sits where practical engineering meets atmosphere: clear journeys,
-          purposeful movement, and digital products that make people want to keep
-          exploring.
-        </p>
-      </div>
-      <div class="intro__stats" aria-label="Practice highlights" data-reveal>
-        <div style="--reveal-delay: 80ms">
-          <strong>4</strong>
-          <span>Core disciplines</span>
-        </div>
-        <div style="--reveal-delay: 140ms">
-          <strong>10</strong>
-          <span>Selected builds</span>
-        </div>
-        <div style="--reveal-delay: 200ms">
-          <strong>01</strong>
-          <span>Independent studio mindset</span>
+          ))}
         </div>
       </div>
     </section>
 
-    <section class="section life" aria-labelledby="life-title">
-      <div class="section__label" data-reveal>Beyond the desk</div>
-      <div class="section__heading section__heading--split" data-reveal>
-        <div>
-          <p class="eyebrow">Structure, balance, and curiosity</p>
-          <h2 id="life-title">The rhythm behind the work.</h2>
+    <section class="redesign-section beyond-section" id="beyond" aria-labelledby="beyond-title">
+      <div class="section-kicker">03. Beyond the desk</div>
+      <div class="beyond-layout">
+        <div class="beyond-copy" data-reveal>
+          <h2 id="beyond-title">Beyond <em>the desk.</em></h2>
+          <p>
+            Away from code I enjoy staying active, exploring new places, and
+            working on 3D projects. These interests keep me creative, focused
+            and motivated in my work.
+          </p>
         </div>
-      </div>
-      <div class="life__layout">
-        <div class="life__routine" data-reveal>
-          {
-            routine.map((item, index) => (
-              <div class="life__routine-step" style={`--reveal-delay: ${index * 55}ms`}>
-                <span>{item.time}</span>
-                <strong>{item.label}</strong>
+        <div class="beyond-gallery">
+          {beyondCards.map((card, index) => (
+            <article class="beyond-card" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+              <img src={card.image} alt="" loading="lazy" />
+              <div>
+                <h3>{card.title}</h3>
+                <p>{card.subtitle}</p>
               </div>
-            ))
-          }
-        </div>
-        <div class="life__photos" data-reveal style="--reveal-delay: 140ms">
-          {
-            lifePhotos.map((photo) => (
-              <figure>
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
-                <figcaption>{photo.caption}</figcaption>
-              </figure>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section class="section process" aria-labelledby="process-title">
-      <div class="section__label" data-reveal>Process</div>
-      <div class="section__heading" data-reveal>
-        <p class="eyebrow">How ideas become shipped work</p>
-        <h2 id="process-title">A simple path from first signal to live product.</h2>
-      </div>
-      <div class="process__timeline">
-        {
-          process.map((item, index) => (
-            <article class="process-step" data-reveal style={`--reveal-delay: ${index * 85}ms`}>
-              <span>{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
             </article>
-          ))
-        }
+          ))}
+        </div>
       </div>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-title" data-reveal>
-      <div class="contact__orb" aria-hidden="true"></div>
-      <p class="eyebrow">Contact</p>
-      <h2 id="contact-title">Have a build, product idea, or automation problem worth shaping?</h2>
-      <a class="contact__email" href="mailto:bovindesouza@gmail.com">bovindesouza@gmail.com</a>
+    <section class="redesign-section contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="section-kicker">04. Get in touch</div>
+      <div class="contact-layout">
+        <div class="contact-copy" data-reveal>
+          <h2 id="contact-title">Let's build <em>something great.</em></h2>
+          <p>
+            I'm open to new opportunities, freelance work or just a chat about
+            interesting ideas.
+          </p>
+        </div>
+        <form class="contact-form" action="https://formspree.io/bov@bovin-desouza.co.uk" method="POST" data-reveal>
+          <div>
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div>
+            <label for="email">Your email</label>
+            <input id="email" name="email" type="email" placeholder="Your email" required />
+          </div>
+          <div class="contact-form__message">
+            <label for="message">Your message</label>
+            <textarea id="message" name="message" placeholder="Your message" required></textarea>
+          </div>
+          <button type="submit">Send message &rarr;</button>
+        </form>
+        <aside class="direct-card" data-reveal>
+          <p><span></span> Or connect directly</p>
+          <a href="mailto:bovindesouza@gmail.com">bovindesouza@gmail.com</a>
+          <a href="https://www.linkedin.com/in/bovin-de-souza-10462b11b/" target="_blank" rel="noreferrer">LinkedIn / bovin-de-souza</a>
+          <a href="https://github.com/BD-Git-Hub" target="_blank" rel="noreferrer">GitHub / BD-Git-Hub</a>
+          <a class="download-link" href="/BovinDeSouzaCV.pdf" download>Download CV &darr;</a>
+        </aside>
+      </div>
     </section>
   </main>
-
-  <script src="../scripts/particleHero.ts"></script>
   <script src="../scripts/cinematicReveal.ts"></script>
 </BaseLayout>
