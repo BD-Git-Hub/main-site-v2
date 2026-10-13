@@ -1658,6 +1658,7 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .feature-card,
@@ -1686,6 +1687,9 @@ main {
 }
 
 .feature-card {
+  display: grid;
+  grid-template-rows: auto 17rem minmax(12rem, 1fr);
+  min-height: 34rem;
   overflow: hidden;
 }
 
@@ -1705,7 +1709,7 @@ main {
 
 .feature-card__image {
   position: relative;
-  min-height: 17rem;
+  height: 17rem;
   overflow: hidden;
 }
 
@@ -1727,11 +1731,18 @@ main {
 }
 
 .feature-card__body {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 1rem;
   padding: 1rem;
 }
 
 .feature-card__body p {
   color: var(--rd-muted);
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .feature-card__body div,
