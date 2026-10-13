@@ -160,6 +160,20 @@ const workflowNodes = [
       <span class="light-trail light-trail--hero"></span>
       <span class="light-trail light-trail--mid"></span>
       <span class="light-trail light-trail--footer"></span>
+      <svg class="neon-ribbons neon-ribbons--hero" viewBox="0 0 1440 640" preserveAspectRatio="none">
+        <path d="M-80 410 C220 190 410 610 690 300 C870 104 1070 90 1530 12" />
+        <path d="M-100 470 C260 270 438 626 748 342 C986 124 1136 190 1540 78" />
+        <path d="M-60 532 C246 404 540 560 748 406 C980 232 1180 300 1500 176" />
+      </svg>
+      <svg class="neon-ribbons neon-ribbons--contact" viewBox="0 0 1440 560" preserveAspectRatio="none">
+        <path d="M-120 420 C250 210 492 492 812 308 C1034 180 1248 252 1548 84" />
+        <path d="M-90 500 C300 278 560 540 860 360 C1080 230 1230 390 1530 210" />
+      </svg>
+      <div class="particle-dust">
+        {Array.from({ length: 34 }).map((_, index) => (
+          <span style={`--dot-x: ${(index * 37) % 100}%; --dot-y: ${(index * 61) % 100}%; --dot-delay: -${(index % 12) * 0.32}s`}></span>
+        ))}
+      </div>
     </div>
 
     <header class="redesign-nav" aria-label="Primary navigation">
