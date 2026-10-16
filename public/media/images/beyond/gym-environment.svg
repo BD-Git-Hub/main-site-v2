@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-label="Dark gym environment">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101916"/>
+      <stop offset="0.58" stop-color="#050807"/>
+      <stop offset="1" stop-color="#16281f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="12%" r="65%">
+      <stop offset="0" stop-color="#c4ff4d" stop-opacity=".38"/>
+      <stop offset=".45" stop-color="#39d5e8" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#030807" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#31423d"/>
+      <stop offset="1" stop-color="#0a1715"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <rect width="900" height="1200" fill="url(#glow)"/>
+  <g opacity=".16" stroke="#c4ff4d">
+    <path d="M120 0v1200M300 0v1200M480 0v1200M660 0v1200M840 0v1200"/>
+    <path d="M0 180h900M0 360h900M0 540h900M0 720h900M0 900h900M0 1080h900"/>
+  </g>
+  <g transform="translate(90 255)">
+    <rect x="70" y="350" width="580" height="54" rx="27" fill="#0f201c" stroke="#1d3834" stroke-width="6"/>
+    <rect x="10" y="300" width="78" height="154" rx="20" fill="url(#metal)" stroke="#45635d" stroke-width="6"/>
+    <rect x="632" y="300" width="78" height="154" rx="20" fill="url(#metal)" stroke="#45635d" stroke-width="6"/>
+    <rect x="120" y="275" width="48" height="204" rx="18" fill="#142721" stroke="#2e4c45" stroke-width="5"/>
+    <rect x="552" y="275" width="48" height="204" rx="18" fill="#142721" stroke="#2e4c45" stroke-width="5"/>
+    <circle cx="360" cy="378" r="34" fill="#c4ff4d" opacity=".85"/>
+    <path d="M240 620h240l70 270H170z" fill="#0a1715" stroke="#1d3834" stroke-width="7"/>
+    <path d="M255 620h210l44 170H211z" fill="#101f1b" stroke="#294840" stroke-width="5"/>
+    <path d="M210 900h300" stroke="#c4ff4d" stroke-width="9" stroke-linecap="round" opacity=".65"/>
+    <path d="M185 930h350" stroke="#39d5e8" stroke-width="4" stroke-linecap="round" opacity=".45"/>
+  </g>
+  <circle cx="720" cy="190" r="110" fill="#c4ff4d" opacity=".08"/>
+  <circle cx="170" cy="1000" r="190" fill="#39d5e8" opacity=".07"/>
+</svg>
