@@ -1,0 +1,23 @@
+---
+import { techIcons } from "../data/techIcons";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const icon = techIcons[name];
+---
+
+{icon ? (
+  <svg
+    class="tech-icon"
+    viewBox="0 0 24 24"
+    role="img"
+    aria-hidden="true"
+    focusable="false"
+    set:html={icon}
+  />
+) : (
+  <span class="tech-icon tech-icon--fallback" aria-hidden="true">{name.slice(0, 2)}</span>
+)}
