@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import TechIcon from "../components/TechIcon.astro";
 
 const featuredProjects = [
   {
@@ -280,8 +281,13 @@ const workflowNodes = [
           {technologyGroups.map((group, index) => (
             <article class="tech-card" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
               <h3><span></span>{group.title}</h3>
-              <div>
-                {group.tools.map((tool) => <span class="tech-pill">{tool}</span>)}
+              <div class="tech-card__tools">
+                {group.tools.map((tool) => (
+                  <span class="tech-pill">
+                    <TechIcon name={tool} />
+                    <span>{tool}</span>
+                  </span>
+                ))}
               </div>
             </article>
           ))}
