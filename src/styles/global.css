@@ -1710,7 +1710,6 @@ main {
   font-size: 0.72rem;
 }
 
-.section-heading-row,
 .skills-layout,
 .beyond-layout,
 .contact-layout {
@@ -1721,8 +1720,11 @@ main {
 }
 
 .section-heading-row {
-  align-items: end;
   margin-bottom: clamp(1.5rem, 4vw, 2.4rem);
+}
+
+.section-heading-row h2 {
+  max-width: 14ch;
 }
 
 .project-grid {
@@ -2064,7 +2066,6 @@ main {
   }
 
   .redesign-hero,
-  .section-heading-row,
   .skills-layout,
   .beyond-layout,
   .contact-layout {
