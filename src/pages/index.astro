@@ -148,7 +148,6 @@ const beyondCards = [
     title: "Diving",
     subtitle: "Underwater exploration",
     image: "/media/images/beyond/scuba-diving.webp",
-    fit: "contain",
   },
 ];
 
@@ -307,11 +306,7 @@ const workflowNodes = [
         </div>
         <div class="beyond-gallery">
           {beyondCards.map((card, index) => (
-            <article
-              class:list={["beyond-card", card.fit === "contain" && "beyond-card--contain"]}
-              data-reveal
-              style={`--reveal-delay: ${index * 80}ms; --card-image: url('${card.image}')`}
-            >
+            <article class="beyond-card" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
               <img src={card.image} alt="" loading="lazy" />
               <div>
                 <h3>{card.title}</h3>
