@@ -1797,6 +1797,11 @@ main {
     transform 320ms ease;
 }
 
+.beyond-card img {
+  position: absolute;
+  inset: 0;
+}
+
 .feature-card:hover img,
 .beyond-card:hover img {
   transform: scale(1.06);
@@ -1920,7 +1925,7 @@ main {
 
 .beyond-card {
   position: relative;
-  min-height: 21rem;
+  height: 21rem;
   overflow: hidden;
 }
 
@@ -2096,6 +2101,10 @@ main {
   .beyond-gallery,
   .contact-form {
     grid-template-columns: 1fr;
+  }
+
+  .beyond-card {
+    height: 21rem;
   }
 
   .tech-card__tools {
