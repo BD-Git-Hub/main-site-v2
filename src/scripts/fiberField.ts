@@ -317,68 +317,108 @@ type ArcKind = "crown" | "climb" | "fall" | "hook";
 function pushCompactGuides(guides: Guide[]) {
   const badge = layoutBox(".status-badge");
   const nav = layoutBox(".redesign-nav");
-  const heroBox = layoutBox(".redesign-hero") ?? hero;
-  const dashboardBox = layoutBox(".workflow-dashboard") ?? dashboard;
+  const heroBox = layoutBox(".redesign-hero");
+  const dashboardBox = layoutBox(".workflow-dashboard");
   if (heroBox && badge && nav) {
-    pushOpenArc(guides, heroBox, nav.y + nav.h + 10, badge.y - 18, "crown", 0.9);
+    pushAngledArc(guides, heroBox, nav.y + nav.h + 4, badge.y - 12, "crown", 0.9);
   }
   const status = layoutBox(".status-line");
   if (heroBox && status && dashboardBox) {
-    pushOpenArc(guides, heroBox, status.y + status.h + 14, dashboardBox.y - 4, "hook", 0.9);
+    pushAngledArc(guides, heroBox, status.y + status.h + 14, dashboardBox.y - 12, "fall", 0.86);
   }
 
-  pushHeadingArc(guides, "#portfolio", "crown", "above-kicker");
-  pushHeadingArc(guides, "#skills", "climb", "below-kicker");
-  pushHeadingArc(guides, "#beyond", "fall", "below-kicker");
-  pushHeadingArc(guides, "#contact", "hook", "below-kicker");
+  pushHeadingArc(guides, "#portfolio", "crown");
+  pushHeadingArc(guides, "#skills", "climb");
+  pushHeadingArc(guides, "#beyond", "fall");
+  pushHeadingArc(guides, "#contact", "hook");
 }
 
-function pushHeadingArc(guides: Guide[], sectionSelector: string, kind: ArcKind, slot: "above-kicker" | "below-kicker") {
+function pushHeadingArc(guides: Guide[], sectionSelector: string, kind: ArcKind) {
   const section = layoutBox(sectionSelector);
   const title = layoutBox(`${sectionSelector} h2`);
-  const kicker = layoutBox(`${sectionSelector} .section-kicker`);
+  const kicker = textBox(`${sectionSelector} .section-kicker`);
   if (!section || !title || !kicker) {
     return;
   }
-  const above = kicker.y - (section.y + 10);
-  const below = title.y - (kicker.y + kicker.h);
-  const useAbove = slot === "above-kicker" || below < 36;
-  if (useAbove && above >= 36) {
-    pushOpenArc(guides, section, section.y + 12, kicker.y - 16, kind, 0.82);
+  pushAngledArc(guides, section, section.y + 8, title.y - 26, kind, 0.84, {
+    x: kicker.x + kicker.w + 16,
+    y: kicker.y - 12,
+  });
+}
+
+function pushAngledArc(
+  guides: Guide[],
+  section: Box,
+  top: number,
+  bottom: number,
+  kind: ArcKind,
+  gain: number,
+  ceiling?: { x: number; y: number },
+) {
+  const room = bottom - top;
+  if (room < 18) {
     return;
   }
-  if (below >= 36) {
-    pushOpenArc(guides, section, kicker.y + kicker.h + 6, title.y - 8, kind, 0.78);
+  const shape: Record<ArcKind, { xs: number[]; ys: number[]; shear: number; focus: number }> = {
+    crown: { xs: [-0.04, 0.26, 0.62, 1.04], ys: [0.82, 0.0, 0.16, 0.9], shear: -16, focus: 0.3 },
+    climb: { xs: [-0.02, 0.34, 0.68, 1.05], ys: [0.9, 0.46, 0.14, 0.0], shear: 22, focus: 0.72 },
+    fall: { xs: [-0.05, 0.24, 0.58, 1.04], ys: [0.0, 0.12, 0.58, 1.0], shear: -24, focus: 0.26 },
+    hook: { xs: [0.0, 0.32, 0.66, 1.06], ys: [0.18, 0.42, 1.0, 0.0], shear: 18, focus: 0.55 },
+  };
+  const spec = shape[kind];
+  const anchors = spec.xs.map((x, index) => {
+    const px = section.x - 20 + (section.w + 40) * x;
+    let py = top + room * spec.ys[index];
+    if (ceiling && px < ceiling.x && py > ceiling.y) {
+      py = ceiling.y;
+    }
+    return point(px, Math.min(bottom, Math.max(top, py)));
+  });
+  liftClear(anchors, bottom, ceiling);
+  guides.push({
+    anchors,
+    count: 16,
+    spread: Math.min(8, room * 0.12),
+    gain,
+    width: 1.65,
+    focus: spec.focus,
+    shear: spec.shear,
+  });
+}
+
+function liftClear(anchors: Point[], floorY: number, ceiling?: { x: number; y: number }) {
+  const curve = new THREE.CatmullRomCurve3(anchors.map((anchor) => new THREE.Vector3(anchor.x, anchor.y, 0)));
+  let lift = 0;
+  for (let step = 0; step <= 28; step += 1) {
+    const sample = curve.getPoint(step / 28);
+    if (sample.y > floorY) {
+      lift = Math.max(lift, sample.y - floorY);
+    }
+    if (ceiling && sample.x < ceiling.x && sample.y > ceiling.y) {
+      lift = Math.max(lift, sample.y - ceiling.y);
+    }
+  }
+  if (lift > 0) {
+    for (const anchor of anchors) {
+      anchor.y -= lift;
+    }
   }
 }
 
-function pushOpenArc(guides: Guide[], section: Box, top: number, bottom: number, kind: ArcKind, gain: number) {
-  const room = bottom - top;
-  if (room < 22) {
-    return;
+function textBox(selector: string): Box | null {
+  const element = document.querySelector<HTMLElement>(selector);
+  if (!element) {
+    return null;
   }
-  const bow: Record<ArcKind, [number, number, number, number]> = {
-    crown: [10, -16, 12, -2],
-    climb: [14, -6, 8, -14],
-    fall: [-12, -2, 14, 4],
-    hook: [-4, 12, -8, -14],
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  const rect = range.getBoundingClientRect();
+  return {
+    x: rect.left + window.scrollX,
+    y: rect.top + window.scrollY,
+    w: rect.width,
+    h: rect.height,
   };
-  const raw = bow[kind];
-  const span = Math.max(...raw) - Math.min(...raw);
-  const scale = Math.min(1, (room * 0.5) / span);
-  const scaled = raw.map((value) => value * scale);
-  const shift = (Math.min(...scaled) + Math.max(...scaled)) / 2;
-  const y = (top + bottom) / 2;
-  guides.push({
-    anchors: [0, 0.32, 0.7, 1].map((x, index) =>
-      point(section.x - 28 + (section.w + 56) * x, y + scaled[index] - shift),
-    ),
-    count: 18,
-    spread: Math.min(9, room * 0.14),
-    gain,
-    width: 1.75,
-    focus: 0.48,
-  });
 }
 
 function pushHeadingRibbon(
