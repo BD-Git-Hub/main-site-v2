@@ -1305,6 +1305,22 @@ main {
   overflow: hidden;
 }
 
+.fiber-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.light-field--live .light-trail,
+.light-field--live .neon-ribbons,
+.light-field--live .particle-dust {
+  opacity: 0;
+}
+
 .light-field::before {
   position: absolute;
   inset: 0;
@@ -1552,6 +1568,20 @@ main {
   color: var(--rd-lime);
   font-size: 0.67rem;
   background: rgba(196, 255, 77, 0.06);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy::before {
+  position: absolute;
+  z-index: -1;
+  inset: -12% -18% -8% -10%;
+  pointer-events: none;
+  content: "";
+  background: radial-gradient(ellipse at 28% 42%, rgba(3, 8, 7, 0.82), rgba(3, 8, 7, 0.34) 52%, transparent 76%);
 }
 
 .hero-copy h1,
@@ -2088,6 +2118,11 @@ main {
 }
 
 @media (max-width: 720px) {
+  .hero-copy::before {
+    inset: -4% -6%;
+    background: radial-gradient(ellipse at 50% 42%, rgba(3, 8, 7, 0.9), rgba(3, 8, 7, 0.62) 58%, transparent 82%);
+  }
+
   .hero-copy h1,
   .section-heading-row h2,
   .skills-copy h2,
