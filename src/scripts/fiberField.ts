@@ -274,11 +274,12 @@ function createGuides(compact: boolean): Guide[] {
   });
 
   pushHeadingRibbon(guides, skills, measure("#skills-title"), density, {
-    xs: [-0.04, 0.24, 0.6, 1.05],
-    ys: [0.58, 0.22, -0.42, -0.16],
+    xs: [-0.04, 0.22, 0.62, 1.05],
+    ys: [0.34, 0.08, -0.38, -0.1],
     focus: 0.72,
-    shear: 110,
-    spread: 62,
+    shear: 64,
+    spread: 50,
+    belowText: true,
   });
   pushHeadingRibbon(guides, beyond, measure("#beyond-title"), density, {
     xs: [-0.05, 0.18, 0.55, 1.06],
@@ -288,11 +289,12 @@ function createGuides(compact: boolean): Guide[] {
     spread: 78,
   });
   pushHeadingRibbon(guides, contact, measure("#contact-title"), density, {
-    xs: [-0.04, 0.3, 0.72, 1.05],
-    ys: [0.35, 0.5, -0.28, -0.55],
+    xs: [-0.04, 0.28, 0.7, 1.05],
+    ys: [0.1, 0.26, -0.12, -0.5],
     focus: 0.48,
-    shear: 80,
-    spread: 54,
+    shear: 42,
+    spread: 46,
+    belowText: true,
   });
 
   return guides;
@@ -309,6 +311,7 @@ function pushHeadingRibbon(
     focus: number;
     shear: number;
     spread: number;
+    belowText?: boolean;
   },
 ) {
   if (!section || !title) {
@@ -316,15 +319,49 @@ function pushHeadingRibbon(
   }
 
   const span = Math.max(140, Math.min(300, section.w * 0.2));
+  const origin = shape.belowText ? title.y + title.h : title.y;
   const [x0, x1, x2, x3] = shape.xs;
   const [y0, y1, y2, y3] = shape.ys;
+  const anchors = [
+    point(section.x + section.w * x0, origin + span * y0),
+    point(section.x + section.w * x1, origin + span * y1),
+    point(section.x + section.w * x2, origin + span * y2),
+    point(section.x + section.w * x3, origin + span * y3),
+  ];
+
+  if (shape.belowText) {
+    const titleRight = title.x + title.w + 12;
+    const curve = new THREE.CatmullRomCurve3(anchors.map((anchor) => new THREE.Vector3(anchor.x, anchor.y, 0)));
+    const minY = title.y + title.h + 34;
+    let shift = 0;
+    for (let step = 0; step <= 32; step += 1) {
+      const pointOnCurve = curve.getPoint(step / 32);
+      if (pointOnCurve.x > titleRight) {
+        continue;
+      }
+      if (pointOnCurve.y < minY) {
+        shift = Math.max(shift, minY - pointOnCurve.y);
+      }
+    }
+    if (shift > 0) {
+      for (const anchor of anchors) {
+        anchor.y += shift;
+      }
+    }
+
+    if (title.w > section.w * 0.72) {
+      const high = Math.min(...anchors.map((anchor) => anchor.y));
+      const low = Math.max(...anchors.map((anchor) => anchor.y));
+      const spanY = Math.max(1, low - high);
+      const top = title.y + title.h + 12;
+      for (const anchor of anchors) {
+        anchor.y = top + ((anchor.y - high) / spanY) * 40;
+      }
+    }
+  }
+
   guides.push({
-    anchors: [
-      point(section.x + section.w * x0, title.y + span * y0),
-      point(section.x + section.w * x1, title.y + span * y1),
-      point(section.x + section.w * x2, title.y + span * y2),
-      point(section.x + section.w * x3, title.y + span * y3),
-    ],
+    anchors,
     count: Math.max(8, Math.round(18 * density)),
     spread: density < 1 ? shape.spread * 0.55 : shape.spread,
     gain: 0.36,
