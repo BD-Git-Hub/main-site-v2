@@ -1550,9 +1550,12 @@ main {
   height: calc(100% - 6rem);
 }
 
+.workflow-lines--compact {
+  display: none;
+}
+
 .workflow-lines path {
   fill: none;
-  stroke: url(#none);
   stroke: var(--rd-lime);
   stroke-width: 2;
   stroke-dasharray: 8 14;
@@ -1932,6 +1935,7 @@ main {
   border-radius: 999px;
 }
 
+
 @keyframes lineDash {
   to {
     stroke-dashoffset: -44;
@@ -1999,6 +2003,50 @@ main {
   .workflow-node--backend,
   .workflow-node--output {
     right: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .workflow-dashboard {
+    min-height: 40rem;
+  }
+
+  .workflow-hub {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .workflow-node {
+    width: 8.4rem;
+    padding: 0.65rem 0.7rem;
+  }
+
+  .workflow-node--frontend,
+  .workflow-node--deploy {
+    width: 9rem;
+  }
+
+  .workflow-node--design { left: 0.65rem; top: 8.8rem; }
+  .workflow-node--frontend { top: 3.5rem; }
+  .workflow-node--backend { right: 0.65rem; top: 8.8rem; }
+  .workflow-node--cms { left: 0.65rem; bottom: 9.6rem; }
+  .workflow-node--deploy { bottom: 2.4rem; }
+  .workflow-node--output { right: 0.65rem; bottom: 9.6rem; }
+
+  .workflow-lines {
+    display: none;
+  }
+
+  .workflow-lines--compact {
+    display: block;
+    inset: 0.5rem 0.4rem;
+    width: calc(100% - 0.8rem);
+    height: calc(100% - 1rem);
+  }
+
+  .workflow-lines--compact path {
+    stroke-width: 1.4;
+    vector-effect: non-scaling-stroke;
   }
 }
 
