@@ -151,18 +151,13 @@ const beyondCards = [
   },
 ];
 
-const systemNodes = [
-  { title: "React UI", text: "Frontend", className: "system-node--ui", icon: "react" },
-  { title: "API", text: "Node.js / Express", className: "system-node--api", icon: "api" },
-  { title: "Data", text: "PostgreSQL / MongoDB", className: "system-node--data", icon: "data" },
-  { title: "People", text: "Users & Community", className: "system-node--people", icon: "people" },
-];
-
-const systemEvents = [
-  { label: "Build", text: "Deployed new version", time: "2m ago", tone: "lime" },
-  { label: "API", text: "Data sync completed", time: "12m ago", tone: "cyan" },
-  { label: "Frontend", text: "Static assets optimised", time: "28m ago", tone: "lime" },
-  { label: "Users", text: "New user signed up", time: "1h ago", tone: "lime" },
+const workflowNodes = [
+  { title: "Design", text: "UI / UX", className: "workflow-node--design" },
+  { title: "Frontend", text: "React, Vue, JS", className: "workflow-node--frontend" },
+  { title: "Backend", text: "PHP, Node.js", className: "workflow-node--backend" },
+  { title: "CMS", text: "WordPress", className: "workflow-node--cms" },
+  { title: "Deploy", text: "Vercel, AWS", className: "workflow-node--deploy" },
+  { title: "Modern Web Experiences", text: "Final output", className: "workflow-node--output" },
 ];
 ---
 
@@ -205,73 +200,25 @@ const systemEvents = [
         <p class="status-line"><span></span> Based in Brighton · Open to opportunities</p>
       </div>
 
-      <div class="workflow-dashboard system-board" data-reveal style="--reveal-delay: 160ms">
+      <div class="workflow-dashboard" data-reveal style="--reveal-delay: 160ms">
         <div class="workflow-dashboard__top">
-          <span class="system-board__live"><i></i>System <em>Online</em></span>
-          <span class="system-board__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Turning ideas into digital experiences</span>
+          <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
         </div>
-        <div class="system-board__map">
-          <svg class="system-board__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="system-flow" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#39d5e8" />
-                <stop offset="0.55" stop-color="#7dff9a" />
-                <stop offset="1" stop-color="#c4ff4d" />
-              </linearGradient>
-            </defs>
-            <path d="M22 44 C34 28 42 14 50 18 C60 22 64 30 70 40" />
-            <path d="M22 54 C34 72 42 84 48 78 C60 70 65 56 72 46" />
-            <path d="M50 28 C44 42 44 58 48 74" />
-          </svg>
-          {systemNodes.map((node) => (
-            <div class={`system-node ${node.className}`}>
-              <span class="system-node__icon" aria-hidden="true">
-                {node.icon === "react" && (
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2.1" />
-                    <ellipse cx="12" cy="12" rx="9" ry="3.5" fill="none" stroke="currentColor" stroke-width="1.4" />
-                    <ellipse cx="12" cy="12" rx="9" ry="3.5" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(60 12 12)" />
-                    <ellipse cx="12" cy="12" rx="9" ry="3.5" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(120 12 12)" />
-                  </svg>
-                )}
-                {node.icon === "api" && (
-                  <svg viewBox="0 0 24 24">
-                    <path d="M9 7 L4.5 12 L9 17" />
-                    <path d="M15 7 L19.5 12 L15 17" />
-                  </svg>
-                )}
-                {node.icon === "data" && (
-                  <svg viewBox="0 0 24 24">
-                    <ellipse cx="12" cy="7" rx="6.2" ry="2.5" />
-                    <path d="M5.8 7 v10.2 c0 1.4 2.8 2.5 6.2 2.5 s6.2-1.1 6.2-2.5 V7" />
-                    <path d="M5.8 12.2 c0 1.4 2.8 2.5 6.2 2.5 s6.2-1.1 6.2-2.5" />
-                  </svg>
-                )}
-                {node.icon === "people" && (
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="2.7" />
-                    <path d="M6.4 18.5 c.8-3.2 2.8-4.8 5.6-4.8 s4.8 1.6 5.6 4.8" />
-                  </svg>
-                )}
-              </span>
-              <span class="system-node__copy">
-                <strong>{node.title}</strong>
-                <span>{node.text}</span>
-              </span>
-              <i class="system-node__pip" aria-hidden="true"></i>
-            </div>
-          ))}
-        </div>
-        <ul class="system-board__log">
-          {systemEvents.map((event) => (
-            <li>
-              <i class={`system-board__dot system-board__dot--${event.tone}`} aria-hidden="true"></i>
-              <span>{event.label}</span>
-              <p>{event.text}</p>
-              <time>{event.time}</time>
-            </li>
-          ))}
-        </ul>
+        <svg class="workflow-lines" viewBox="0 0 680 420" aria-hidden="true">
+          <path d="M175 120 C260 72 322 94 344 186" />
+          <path d="M505 120 C440 76 377 94 344 186" />
+          <path d="M155 286 C248 318 314 286 344 218" />
+          <path d="M344 218 C388 284 470 304 548 262" />
+          <path d="M344 186 C404 188 458 198 548 205" />
+        </svg>
+        <div class="workflow-hub" aria-hidden="true"><span>◆</span></div>
+        {workflowNodes.map((node) => (
+          <div class={`workflow-node ${node.className}`}>
+            <span>{node.title}</span>
+            <strong>{node.text}</strong>
+          </div>
+        ))}
       </div>
     </section>
 
