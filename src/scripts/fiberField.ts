@@ -236,15 +236,21 @@ function createGuides(compact: boolean): Guide[] {
   const density = compact ? 0.38 : 1;
 
   if (hero) {
+    const title = measure("#hero-title");
     const focus = dashboard
-      ? { x: dashboard.x - hero.w * 0.03, y: dashboard.y + dashboard.h * 0.46 }
+      ? { x: dashboard.x + dashboard.w * 0.46, y: dashboard.y + dashboard.h * 0.46 }
       : { x: hero.x + hero.w * 0.66, y: hero.y + hero.h * 0.46 };
     const left = hero.x - hero.w * 0.08;
     const right = hero.x + hero.w + hero.w * 0.08;
+    const clearance = hero.h * 0.16;
+    const above = title ? Math.max(hero.y + hero.h * 0.02, title.y - clearance) : hero.y + hero.h * 0.1;
+    const below = title ? title.y + title.h + clearance : hero.y + hero.h * 0.84;
+    const overX = title ? title.x + title.w * 0.4 : hero.x + hero.w * 0.22;
+    const pastX = title ? title.x + title.w + clearance : hero.x + hero.w * 0.56;
     const paths = [
-      [point(left, hero.y + hero.h * 0.74), point(hero.x + hero.w * 0.18, hero.y + hero.h * 0.16), focus, point(right, hero.y + hero.h * 0.08)],
-      [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
-      [point(left, hero.y + hero.h * 0.14), point(hero.x + hero.w * 0.28, hero.y + hero.h * 0.02), focus, point(right, hero.y + hero.h * 0.58)],
+      [point(left, above + clearance * 0.25), point(overX, above - clearance * 0.05), point(pastX, above), point(right, hero.y + hero.h * 0.04)],
+      [point(left, below), point(overX, below + clearance * 0.12), point(pastX, below - clearance * 0.08), focus],
+      [point(left, below + clearance * 0.45), point(pastX, below + clearance * 0.2), focus, point(right, hero.y + hero.h * 0.62)],
     ];
     for (const anchors of paths) {
       guides.push({
@@ -254,8 +260,6 @@ function createGuides(compact: boolean): Guide[] {
         gain: compact ? 0.28 : 0.92,
         width: compact ? 8 : 2.4,
         focus: 0.64,
-        dimStart: hero.x + hero.w * 0.02,
-        dimEnd: hero.x + hero.w * 0.46,
       });
     }
   }
