@@ -1318,6 +1318,12 @@ main {
   opacity: 1;
 }
 
+@media (max-width: 759px) {
+  .light-field {
+    display: none;
+  }
+}
+
 .redesign-nav,
 .redesign-hero,
 .redesign-section {
