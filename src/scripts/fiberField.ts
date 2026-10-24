@@ -14,6 +14,7 @@ type Guide = {
   gain: number;
   width: number;
   focus: number;
+  shear?: number;
   dimStart?: number;
   dimEnd?: number;
 };
@@ -272,31 +273,64 @@ function createGuides(compact: boolean): Guide[] {
     gain: 0.24,
   });
 
-  pushHeadingRibbon(guides, skills, measure("#skills-title"), density);
-  pushHeadingRibbon(guides, beyond, measure("#beyond-title"), density);
-  pushHeadingRibbon(guides, contact, measure("#contact-title"), density);
+  pushHeadingRibbon(guides, skills, measure("#skills-title"), density, {
+    xs: [-0.04, 0.24, 0.6, 1.05],
+    ys: [0.58, 0.22, -0.42, -0.16],
+    focus: 0.72,
+    shear: 110,
+    spread: 62,
+  });
+  pushHeadingRibbon(guides, beyond, measure("#beyond-title"), density, {
+    xs: [-0.05, 0.18, 0.55, 1.06],
+    ys: [-0.46, -0.08, 0.55, 0.22],
+    focus: 0.22,
+    shear: -120,
+    spread: 78,
+  });
+  pushHeadingRibbon(guides, contact, measure("#contact-title"), density, {
+    xs: [-0.04, 0.3, 0.72, 1.05],
+    ys: [0.35, 0.5, -0.28, -0.55],
+    focus: 0.48,
+    shear: 80,
+    spread: 54,
+  });
 
   return guides;
 }
 
-function pushHeadingRibbon(guides: Guide[], section: Box | null, title: Box | null, density: number) {
+function pushHeadingRibbon(
+  guides: Guide[],
+  section: Box | null,
+  title: Box | null,
+  density: number,
+  shape: {
+    xs: [number, number, number, number];
+    ys: [number, number, number, number];
+    focus: number;
+    shear: number;
+    spread: number;
+  },
+) {
   if (!section || !title) {
     return;
   }
 
-  const span = Math.max(150, Math.min(320, section.w * 0.22));
+  const span = Math.max(140, Math.min(300, section.w * 0.2));
+  const [x0, x1, x2, x3] = shape.xs;
+  const [y0, y1, y2, y3] = shape.ys;
   guides.push({
     anchors: [
-      point(section.x - 48, title.y + span * 0.08),
-      point(section.x + section.w * 0.3, title.y - span * 0.42),
-      point(section.x + section.w * 0.68, title.y + span * 0.58),
-      point(section.x + section.w + 56, title.y - span * 0.06),
+      point(section.x + section.w * x0, title.y + span * y0),
+      point(section.x + section.w * x1, title.y + span * y1),
+      point(section.x + section.w * x2, title.y + span * y2),
+      point(section.x + section.w * x3, title.y + span * y3),
     ],
     count: Math.max(8, Math.round(18 * density)),
-    spread: density < 1 ? 36 : 70,
+    spread: density < 1 ? shape.spread * 0.55 : shape.spread,
     gain: 0.36,
     width: density < 1 ? 5.5 : 1.7,
-    focus: 0.5,
+    focus: shape.focus,
+    shear: density < 1 ? shape.shear * 0.65 : shape.shear,
   });
 }
 
@@ -367,8 +401,9 @@ function buildGeometry(guides: Guide[], segments: number) {
         const pinch = 0.34 + 0.66 * Math.abs(t - guide.focus);
         const wave = Math.sin(t * Math.PI * (1.4 + seed * 3) + seed * 8);
         const offset = signed * guide.spread * pinch + wave * guide.spread * 0.07;
+        const drift = (guide.shear ?? 0) * signed * (t - guide.focus);
         const x = center.x + nx * offset;
-        const y = center.y + ny * offset;
+        const y = center.y + ny * offset + drift;
 
         const brightness = guide.dimEnd
           ? 0.18 + 0.82 * smoothstep(guide.dimStart ?? 0, guide.dimEnd, x)
