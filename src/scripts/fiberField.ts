@@ -286,33 +286,33 @@ function createGuides(compact: boolean): Guide[] {
   });
 
   pushSweep(guides, beyond, density, {
-    ys: [0.18, 0.02, 0.34, 0.12],
-    count: 22,
-    spread: 80,
-    gain: 0.52,
+    ys: [0.12, 0.02, 0.2, 0.08],
+    count: 12,
+    spread: 48,
+    gain: 0.3,
   });
   pushSweep(guides, beyond, density, {
-    ys: [0.78, 1.02, 0.52, 0.88],
-    count: 22,
-    spread: 100,
-    gain: 0.44,
+    ys: [0.86, 0.94, 0.78, 0.9],
+    count: 12,
+    spread: 52,
+    gain: 0.28,
   });
 
   const contactTitle = measure("#contact-title");
   if (contact && contactTitle) {
-    const spread = compact ? 36 : Math.min(48, contact.h * 0.09);
-    const below = contactTitle.y + contactTitle.h + spread + 6;
+    const spread = compact ? 24 : 32;
+    const below = contactTitle.y + contactTitle.h + spread + 10;
     guides.push({
       anchors: [
-        point(contact.x - 40, below + 8),
+        point(contact.x - 40, below + 6),
         point(contact.x + contact.w * 0.28, below),
-        point(contact.x + contact.w * 0.62, below + 18),
+        point(contact.x + contact.w * 0.62, below + 12),
         point(contact.x + contact.w + 60, below + 4),
       ],
-      count: Math.round(28 * density),
+      count: Math.round(14 * density),
       spread,
-      gain: 0.62,
-      width: compact ? 1.3 : 1.7,
+      gain: 0.36,
+      width: compact ? 1.3 : 1.5,
       focus: 0.35,
     });
   }
