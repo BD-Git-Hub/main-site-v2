@@ -1313,6 +1313,18 @@ main {
   max-width: none;
   pointer-events: none;
   mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.light-field--live .fiber-canvas {
+  opacity: 1;
+}
+
+.light-trail,
+.neon-ribbons,
+.particle-dust {
+  transition: opacity 0.9s ease;
 }
 
 .light-field--live .light-trail,

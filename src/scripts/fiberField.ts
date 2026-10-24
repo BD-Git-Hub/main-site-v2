@@ -195,7 +195,9 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
   }
 
   resize();
-  field.classList.add("light-field--live");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => field.classList.add("light-field--live"));
+  });
 
   let running = true;
   const clock = new THREE.Clock();
@@ -241,6 +243,7 @@ function createGuides(compact: boolean): Guide[] {
       : { x: hero.x + hero.w * 0.66, y: hero.y + hero.h * 0.46 };
     const left = hero.x - hero.w * 0.08;
     const right = hero.x + hero.w + hero.w * 0.08;
+    const title = measure("#hero-title");
     const paths = [
       [point(left, hero.y + hero.h * 0.74), point(hero.x + hero.w * 0.18, hero.y + hero.h * 0.16), focus, point(right, hero.y + hero.h * 0.08)],
       [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
@@ -254,8 +257,8 @@ function createGuides(compact: boolean): Guide[] {
         gain: compact ? 0.28 : 0.92,
         width: compact ? 8 : 2.4,
         focus: 0.64,
-        dimStart: hero.x + hero.w * 0.02,
-        dimEnd: hero.x + hero.w * 0.46,
+        dimStart: title ? title.x - 12 : hero.x + hero.w * 0.04,
+        dimEnd: title ? title.x + title.w + 28 : hero.x + hero.w * 0.42,
       });
     }
   }
@@ -442,9 +445,7 @@ function buildGeometry(guides: Guide[], segments: number) {
         const x = center.x + nx * offset;
         const y = center.y + ny * offset + drift;
 
-        const brightness = guide.dimEnd
-          ? 0.18 + 0.82 * smoothstep(guide.dimStart ?? 0, guide.dimEnd, x)
-          : 1;
+        const brightness = ribbonBrightness(x, guide);
 
         for (const side of [-1, 1]) {
           positions.push(x, -y, 0);
@@ -514,6 +515,18 @@ function measure(selector: string): Box | null {
 
 function point(x: number, y: number): Point {
   return { x, y };
+}
+
+function ribbonBrightness(x: number, guide: Guide) {
+  if (guide.dimStart == null || guide.dimEnd == null) {
+    return 1;
+  }
+
+  const fade = 120;
+  const overText =
+    smoothstep(guide.dimStart - fade, guide.dimStart + 20, x) *
+    (1 - smoothstep(guide.dimEnd - 16, guide.dimEnd + fade, x));
+  return 1 - overText * 0.34;
 }
 
 function smoothstep(edge0: number, edge1: number, value: number) {
