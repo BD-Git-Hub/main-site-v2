@@ -1570,20 +1570,6 @@ main {
   background: rgba(196, 255, 77, 0.06);
 }
 
-.hero-copy {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-copy::before {
-  position: absolute;
-  z-index: -1;
-  inset: -12% -18% -8% -10%;
-  pointer-events: none;
-  content: "";
-  background: radial-gradient(ellipse at 28% 42%, rgba(3, 8, 7, 0.82), rgba(3, 8, 7, 0.34) 52%, transparent 76%);
-}
-
 .hero-copy h1,
 .section-heading-row h2,
 .skills-copy h2,
@@ -2118,11 +2104,6 @@ main {
 }
 
 @media (max-width: 720px) {
-  .hero-copy::before {
-    inset: -4% -6%;
-    background: radial-gradient(ellipse at 50% 42%, rgba(3, 8, 7, 0.9), rgba(3, 8, 7, 0.62) 58%, transparent 82%);
-  }
-
   .hero-copy h1,
   .section-heading-row h2,
   .skills-copy h2,
