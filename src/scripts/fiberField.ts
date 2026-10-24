@@ -247,9 +247,8 @@ function createGuides(compact: boolean): Guide[] {
     const title = measure("#hero-title");
     const blurb = measure(".hero-copy > p:not(.status-badge):not(.status-line)");
     const paths = [
-      [point(left, hero.y + hero.h * 0.74), point(hero.x + hero.w * 0.18, hero.y + hero.h * 0.16), focus, point(right, hero.y + hero.h * 0.08)],
-      [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
       [point(left, hero.y + hero.h * 0.14), point(hero.x + hero.w * 0.28, hero.y + hero.h * 0.02), focus, point(right, hero.y + hero.h * 0.58)],
+      [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
     ];
     for (const anchors of paths) {
       guides.push({
