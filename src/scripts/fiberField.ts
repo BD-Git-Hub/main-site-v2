@@ -229,6 +229,7 @@ function createGuides(compact: boolean): Guide[] {
   const dashboard = measure(".workflow-dashboard");
   const portfolio = measure("#portfolio");
   const skills = measure("#skills");
+  const beyond = measure("#beyond");
   const contact = measure("#contact");
   const guides: Guide[] = [];
   const density = compact ? 0.38 : 1;
@@ -258,8 +259,50 @@ function createGuides(compact: boolean): Guide[] {
     }
   }
 
-  pushEdgeGuides(guides, portfolio, density, 0.34);
-  pushEdgeGuides(guides, skills, density, 0.4);
+  pushSweep(guides, portfolio, density, {
+    ys: [0.05, -0.01, 0.12, 0.03],
+    count: 18,
+    spread: 70,
+    gain: 0.36,
+  });
+  pushSweep(guides, portfolio, density, {
+    ys: [0.58, 0.46, 0.66, 0.5],
+    count: 16,
+    spread: 80,
+    gain: 0.24,
+  });
+
+  pushSweep(guides, skills, density, {
+    ys: [0.16, 0.02, 0.28, 0.08],
+    count: 24,
+    spread: 90,
+    gain: 0.58,
+  });
+  pushSweep(guides, skills, density, {
+    ys: [0.62, 0.86, 0.4, 0.72],
+    count: 28,
+    spread: 120,
+    gain: 0.5,
+  });
+  pushSweep(guides, skills, density, {
+    ys: [0.94, 0.72, 1.02, 0.84],
+    count: 16,
+    spread: 70,
+    gain: 0.34,
+  });
+
+  pushSweep(guides, beyond, density, {
+    ys: [0.18, 0.02, 0.34, 0.12],
+    count: 22,
+    spread: 80,
+    gain: 0.52,
+  });
+  pushSweep(guides, beyond, density, {
+    ys: [0.78, 1.02, 0.52, 0.88],
+    count: 22,
+    spread: 100,
+    gain: 0.44,
+  });
 
   if (contact) {
     guides.push({
@@ -280,22 +323,28 @@ function createGuides(compact: boolean): Guide[] {
   return guides;
 }
 
-function pushEdgeGuides(guides: Guide[], box: Box | null, density: number, gain: number) {
+function pushSweep(
+  guides: Guide[],
+  box: Box | null,
+  density: number,
+  options: { ys: [number, number, number, number]; count: number; spread: number; gain: number },
+) {
   if (!box) {
     return;
   }
 
+  const [y0, y1, y2, y3] = options.ys;
   guides.push({
     anchors: [
-      point(box.x - 30, box.y + box.h * 0.08),
-      point(box.x + box.w * 0.28, box.y - box.h * 0.02),
-      point(box.x + box.w * 0.62, box.y + box.h * 0.16),
-      point(box.x + box.w + 40, box.y + box.h * 0.04),
+      point(box.x - 48, box.y + box.h * y0),
+      point(box.x + box.w * 0.3, box.y + box.h * y1),
+      point(box.x + box.w * 0.68, box.y + box.h * y2),
+      point(box.x + box.w + 56, box.y + box.h * y3),
     ],
-    count: Math.round(18 * density),
-    spread: Math.min(90, box.h * 0.08),
-    gain,
-    width: 1.25,
+    count: Math.max(8, Math.round(options.count * density)),
+    spread: options.spread,
+    gain: options.gain,
+    width: density < 1 ? 5.5 : 1.7,
     focus: 0.5,
   });
 }
