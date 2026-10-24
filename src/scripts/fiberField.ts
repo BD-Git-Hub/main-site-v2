@@ -238,6 +238,11 @@ function createGuides(compact: boolean): Guide[] {
   const guides: Guide[] = [];
   const density = compact ? 0.38 : 1;
 
+  if (compact) {
+    pushCompactGuides(guides);
+    return guides;
+  }
+
   if (hero) {
     const focus = dashboard
       ? { x: dashboard.x - hero.w * 0.03, y: dashboard.y + dashboard.h * 0.46 }
@@ -255,8 +260,8 @@ function createGuides(compact: boolean): Guide[] {
         anchors,
         count: Math.round(46 * density),
         spread: hero.h * 0.18,
-        gain: compact ? 0.28 : 0.92,
-        width: compact ? 8 : 2.4,
+        gain: 0.92,
+        width: 2.4,
         focus: 0.64,
         dimStart: title ? title.x - 12 : hero.x + hero.w * 0.04,
         dimEnd: title ? title.x + title.w + 28 : hero.x + hero.w * 0.42,
@@ -305,6 +310,75 @@ function createGuides(compact: boolean): Guide[] {
   });
 
   return guides;
+}
+
+type ArcKind = "crown" | "climb" | "fall" | "hook";
+
+function pushCompactGuides(guides: Guide[]) {
+  const badge = layoutBox(".status-badge");
+  const nav = layoutBox(".redesign-nav");
+  const heroBox = layoutBox(".redesign-hero") ?? hero;
+  const dashboardBox = layoutBox(".workflow-dashboard") ?? dashboard;
+  if (heroBox && badge && nav) {
+    pushOpenArc(guides, heroBox, nav.y + nav.h + 10, badge.y - 18, "crown", 0.9);
+  }
+  const status = layoutBox(".status-line");
+  if (heroBox && status && dashboardBox) {
+    pushOpenArc(guides, heroBox, status.y + status.h + 14, dashboardBox.y - 4, "hook", 0.9);
+  }
+
+  pushHeadingArc(guides, "#portfolio", "crown", "above-kicker");
+  pushHeadingArc(guides, "#skills", "climb", "below-kicker");
+  pushHeadingArc(guides, "#beyond", "fall", "below-kicker");
+  pushHeadingArc(guides, "#contact", "hook", "below-kicker");
+}
+
+function pushHeadingArc(guides: Guide[], sectionSelector: string, kind: ArcKind, slot: "above-kicker" | "below-kicker") {
+  const section = layoutBox(sectionSelector);
+  const title = layoutBox(`${sectionSelector} h2`);
+  const kicker = layoutBox(`${sectionSelector} .section-kicker`);
+  if (!section || !title || !kicker) {
+    return;
+  }
+  const above = kicker.y - (section.y + 10);
+  const below = title.y - (kicker.y + kicker.h);
+  const useAbove = slot === "above-kicker" || below < 36;
+  if (useAbove && above >= 36) {
+    pushOpenArc(guides, section, section.y + 12, kicker.y - 16, kind, 0.82);
+    return;
+  }
+  if (below >= 36) {
+    pushOpenArc(guides, section, kicker.y + kicker.h + 6, title.y - 8, kind, 0.78);
+  }
+}
+
+function pushOpenArc(guides: Guide[], section: Box, top: number, bottom: number, kind: ArcKind, gain: number) {
+  const room = bottom - top;
+  if (room < 22) {
+    return;
+  }
+  const bow: Record<ArcKind, [number, number, number, number]> = {
+    crown: [10, -16, 12, -2],
+    climb: [14, -6, 8, -14],
+    fall: [-12, -2, 14, 4],
+    hook: [-4, 12, -8, -14],
+  };
+  const raw = bow[kind];
+  const span = Math.max(...raw) - Math.min(...raw);
+  const scale = Math.min(1, (room * 0.5) / span);
+  const scaled = raw.map((value) => value * scale);
+  const shift = (Math.min(...scaled) + Math.max(...scaled)) / 2;
+  const y = (top + bottom) / 2;
+  guides.push({
+    anchors: [0, 0.32, 0.7, 1].map((x, index) =>
+      point(section.x - 28 + (section.w + 56) * x, y + scaled[index] - shift),
+    ),
+    count: 18,
+    spread: Math.min(9, room * 0.14),
+    gain,
+    width: 1.75,
+    focus: 0.48,
+  });
 }
 
 function pushHeadingRibbon(
@@ -501,6 +575,22 @@ function buildGeometry(guides: Guide[], segments: number) {
   sparks.setAttribute("aColor", new THREE.Float32BufferAttribute(sparkColors, 3));
 
   return { ribbons, sparks };
+}
+
+function layoutBox(selector: string): Box | null {
+  const element = document.querySelector<HTMLElement>(selector);
+  if (!element) {
+    return null;
+  }
+  let x = 0;
+  let y = 0;
+  let node: HTMLElement | null = element;
+  while (node) {
+    x += node.offsetLeft;
+    y += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return { x, y, w: element.offsetWidth, h: element.offsetHeight };
 }
 
 function measure(selector: string): Box | null {
