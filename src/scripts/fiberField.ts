@@ -17,6 +17,7 @@ type Guide = {
   shear?: number;
   dimStart?: number;
   dimEnd?: number;
+  quiet?: Box;
 };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -195,7 +196,9 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
   }
 
   resize();
-  field.classList.add("light-field--live");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => field.classList.add("light-field--live"));
+  });
 
   let running = true;
   const clock = new THREE.Clock();
@@ -241,10 +244,11 @@ function createGuides(compact: boolean): Guide[] {
       : { x: hero.x + hero.w * 0.66, y: hero.y + hero.h * 0.46 };
     const left = hero.x - hero.w * 0.08;
     const right = hero.x + hero.w + hero.w * 0.08;
+    const title = measure("#hero-title");
+    const blurb = measure(".hero-copy > p:not(.status-badge):not(.status-line)");
     const paths = [
-      [point(left, hero.y + hero.h * 0.74), point(hero.x + hero.w * 0.18, hero.y + hero.h * 0.16), focus, point(right, hero.y + hero.h * 0.08)],
-      [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
       [point(left, hero.y + hero.h * 0.14), point(hero.x + hero.w * 0.28, hero.y + hero.h * 0.02), focus, point(right, hero.y + hero.h * 0.58)],
+      [point(left, hero.y + hero.h * 0.4), point(hero.x + hero.w * 0.12, hero.y + hero.h * 0.9), focus, point(right, hero.y + hero.h * 0.36)],
     ];
     for (const anchors of paths) {
       guides.push({
@@ -254,8 +258,11 @@ function createGuides(compact: boolean): Guide[] {
         gain: compact ? 0.28 : 0.92,
         width: compact ? 8 : 2.4,
         focus: 0.64,
-        dimStart: hero.x + hero.w * 0.02,
-        dimEnd: hero.x + hero.w * 0.46,
+        dimStart: title ? title.x - 12 : hero.x + hero.w * 0.04,
+        dimEnd: title ? title.x + title.w + 28 : hero.x + hero.w * 0.42,
+        quiet: blurb
+          ? { x: blurb.x - 28, y: blurb.y - 20, w: blurb.w + 56, h: blurb.h + 36 }
+          : undefined,
       });
     }
   }
@@ -442,9 +449,7 @@ function buildGeometry(guides: Guide[], segments: number) {
         const x = center.x + nx * offset;
         const y = center.y + ny * offset + drift;
 
-        const brightness = guide.dimEnd
-          ? 0.18 + 0.82 * smoothstep(guide.dimStart ?? 0, guide.dimEnd, x)
-          : 1;
+        const brightness = ribbonBrightness(x, y, guide);
 
         for (const side of [-1, 1]) {
           positions.push(x, -y, 0);
@@ -514,6 +519,30 @@ function measure(selector: string): Box | null {
 
 function point(x: number, y: number): Point {
   return { x, y };
+}
+
+function ribbonBrightness(x: number, y: number, guide: Guide) {
+  let brightness = 1;
+  if (guide.dimStart != null && guide.dimEnd != null) {
+    const fade = 120;
+    const overText =
+      smoothstep(guide.dimStart - fade, guide.dimStart + 20, x) *
+      (1 - smoothstep(guide.dimEnd - 16, guide.dimEnd + fade, x));
+    brightness = 1 - overText * 0.34;
+  }
+
+  const quiet = guide.quiet;
+  if (quiet) {
+    const fade = 22;
+    const inside =
+      smoothstep(quiet.x - fade, quiet.x + 4, x) *
+      (1 - smoothstep(quiet.x + quiet.w - 4, quiet.x + quiet.w + fade, x)) *
+      smoothstep(quiet.y - fade, quiet.y + 4, y) *
+      (1 - smoothstep(quiet.y + quiet.h - 4, quiet.y + quiet.h + fade, y));
+    brightness *= 1 - inside * 0.92;
+  }
+
+  return brightness;
 }
 
 function smoothstep(edge0: number, edge1: number, value: number) {

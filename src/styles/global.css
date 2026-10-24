@@ -1282,10 +1282,7 @@ main {
   --rd-border: #1d3834;
   position: relative;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 78% 8%, rgba(196, 255, 77, 0.18), transparent 30rem),
-    radial-gradient(circle at 18% 66%, rgba(57, 213, 232, 0.09), transparent 28rem),
-    var(--rd-bg);
+  background: var(--rd-bg);
   color: var(--rd-text);
   overflow: hidden;
 }
@@ -1313,124 +1310,12 @@ main {
   max-width: none;
   pointer-events: none;
   mix-blend-mode: screen;
-}
-
-.light-field--live .light-trail,
-.light-field--live .neon-ribbons,
-.light-field--live .particle-dust {
   opacity: 0;
+  transition: opacity 0.9s ease;
 }
 
-.light-field::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background-image: radial-gradient(rgba(196, 255, 77, 0.28) 1px, transparent 1px);
-  background-size: 34px 34px;
-  opacity: 0.12;
-  mask-image: radial-gradient(circle at 70% 20%, #000, transparent 68%);
-}
-
-.light-trail {
-  position: absolute;
-  width: 78rem;
-  height: 16rem;
-  border-radius: 999px;
-  background:
-    linear-gradient(90deg, transparent, rgba(196, 255, 77, 0.28), rgba(57, 213, 232, 0.26), transparent),
-    repeating-linear-gradient(176deg, transparent 0 18px, rgba(196, 255, 77, 0.5) 19px, transparent 21px);
-  filter: blur(1px) drop-shadow(0 0 28px rgba(196, 255, 77, 0.28));
-  opacity: 0.72;
-  transform: rotate(-17deg);
-  animation: trailFlow 12s ease-in-out infinite alternate;
-}
-
-.light-trail--hero {
-  top: 4rem;
-  right: -18rem;
-}
-
-.light-trail--mid {
-  top: 50%;
-  left: -22rem;
-  opacity: 0.28;
-}
-
-.light-trail--footer {
-  right: -18rem;
-  bottom: 2rem;
-  opacity: 0.46;
-}
-
-.neon-ribbons {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.neon-ribbons--hero {
-  top: 0;
-  height: 46rem;
-  opacity: 0.95;
-}
-
-.neon-ribbons--contact {
-  bottom: -4rem;
-  height: 34rem;
-  opacity: 0.72;
-}
-
-.neon-ribbons path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-width: 2.2;
-  stroke-dasharray: 12 22;
-  filter:
-    drop-shadow(0 0 9px rgba(196, 255, 77, 0.75))
-    drop-shadow(0 0 24px rgba(57, 213, 232, 0.35));
-  animation: ribbonTravel 9s linear infinite;
-}
-
-.neon-ribbons path:nth-child(1) {
-  stroke: rgba(196, 255, 77, 0.78);
-}
-
-.neon-ribbons path:nth-child(2) {
-  stroke: rgba(57, 213, 232, 0.58);
-  stroke-width: 1.6;
-  animation-duration: 11s;
-  animation-direction: reverse;
-}
-
-.neon-ribbons path:nth-child(3) {
-  stroke: rgba(196, 255, 77, 0.34);
-  stroke-width: 3.6;
-  stroke-dasharray: 2 18;
-  animation-duration: 14s;
-}
-
-.particle-dust {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.particle-dust span {
-  position: absolute;
-  left: var(--dot-x);
-  top: var(--dot-y);
-  width: 3px;
-  height: 3px;
-  border-radius: 999px;
-  background: var(--rd-lime);
-  box-shadow:
-    0 0 10px rgba(196, 255, 77, 0.85),
-    0 0 20px rgba(57, 213, 232, 0.24);
-  opacity: 0.34;
-  animation: particleFloat 7s ease-in-out infinite;
-  animation-delay: var(--dot-delay);
+.light-field--live .fiber-canvas {
+  opacity: 1;
 }
 
 .redesign-nav,
@@ -2043,34 +1928,6 @@ main {
   border-radius: 999px;
 }
 
-@keyframes trailFlow {
-  from {
-    transform: translate3d(-2rem, 1rem, 0) rotate(-17deg);
-  }
-  to {
-    transform: translate3d(2rem, -1rem, 0) rotate(-14deg);
-  }
-}
-
-@keyframes ribbonTravel {
-  to {
-    stroke-dashoffset: -180;
-  }
-}
-
-@keyframes particleFloat {
-  0%,
-  100% {
-    opacity: 0.16;
-    transform: translate3d(0, 0, 0) scale(0.8);
-  }
-
-  50% {
-    opacity: 0.72;
-    transform: translate3d(1.1rem, -1.4rem, 0) scale(1.2);
-  }
-}
-
 @keyframes lineDash {
   to {
     stroke-dashoffset: -44;
@@ -2141,14 +1998,3 @@ main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .neon-ribbons path,
-  .particle-dust span,
-  .light-trail {
-    animation: none !important;
-  }
-
-  .particle-dust span {
-    opacity: 0.22;
-  }
-}
