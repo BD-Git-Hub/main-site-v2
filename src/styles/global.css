@@ -1468,7 +1468,11 @@ main {
   text-wrap: balance;
 }
 
-.hero-copy > p:not(.status-badge):not(.status-line),
+.hero-copy > p:not(.status-badge):not(.status-line) {
+  max-width: 35rem;
+  color: #ffffff;
+}
+
 .skills-copy p,
 .beyond-copy p,
 .contact-copy p,
