@@ -18,6 +18,7 @@ type Guide = {
   dimStart?: number;
   dimEnd?: number;
   quiet?: Box;
+  avoid?: Box[];
 };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -140,8 +141,53 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
     `,
   });
 
+  const moteMaterial = new THREE.ShaderMaterial({
+    uniforms,
+    transparent: true,
+    depthWrite: false,
+    depthTest: false,
+    blending: THREE.AdditiveBlending,
+    vertexShader: `
+      uniform float uTime;
+      attribute float aSeed;
+      attribute float aGain;
+      attribute float aSize;
+      attribute float aDrift;
+      attribute float aPhase;
+      attribute vec3 aColor;
+      varying float vTwinkle;
+      varying vec3 vColor;
+      varying float vGain;
+      void main() {
+        float drift = sin(uTime * 0.32 + aPhase) * aDrift;
+        float lift = cos(uTime * 0.24 + aPhase * 1.7) * aDrift;
+        vec4 view = modelViewMatrix * vec4(position + vec3(drift, lift, 0.0), 1.0);
+        gl_Position = projectionMatrix * view;
+        vTwinkle = 0.5 + 0.5 * sin(uTime * (0.65 + aSeed * 0.9) + aPhase);
+        vColor = aColor;
+        vGain = aGain;
+        gl_PointSize = aSize * (1.15 + vTwinkle * 0.85);
+      }
+    `,
+    fragmentShader: `
+      varying float vTwinkle;
+      varying vec3 vColor;
+      varying float vGain;
+      void main() {
+        vec2 p = gl_PointCoord * 2.0 - 1.0;
+        float dist = length(p);
+        float disk = smoothstep(1.0, 0.08, dist);
+        float core = smoothstep(0.48, 0.0, dist);
+        float glow = disk * (0.5 + core * 1.15) * (0.62 + vTwinkle * 0.38) * vGain;
+        if (glow < 0.035) discard;
+        gl_FragColor = vec4(vColor * (0.75 + core * 0.7), glow);
+      }
+    `,
+  });
+
   let ribbon: THREE.Mesh | null = null;
   let sparks: THREE.Points | null = null;
+  let motes: THREE.Points | null = null;
   let composer: EffectComposer | null = null;
   const useBloom = window.innerWidth >= 960;
 
@@ -177,15 +223,21 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
       scene.remove(sparks);
       sparks.geometry.dispose();
     }
+    if (motes) {
+      scene.remove(motes);
+      motes.geometry.dispose();
+    }
 
     const compact = width < 760;
     const guides = createGuides(compact);
-    const built = buildGeometry(guides, compact ? 22 : 36);
+    const built = buildGeometry(guides, compact ? 22 : 36, compact);
     ribbon = new THREE.Mesh(built.ribbons, ribbonMaterial);
     ribbon.frustumCulled = false;
     sparks = new THREE.Points(built.sparks, sparkMaterial);
     sparks.frustumCulled = false;
-    scene.add(ribbon, sparks);
+    motes = new THREE.Points(built.motes, moteMaterial);
+    motes.frustumCulled = false;
+    scene.add(ribbon, sparks, motes);
   };
 
   if (useBloom) {
@@ -268,6 +320,7 @@ function createGuides(compact: boolean): Guide[] {
         quiet: blurb
           ? { x: blurb.x - 28, y: blurb.y - 20, w: blurb.w + 56, h: blurb.h + 36 }
           : undefined,
+        avoid: [title, blurb].flatMap((box) => (box ? [padBox(box, 28, 18)] : [])),
       });
     }
   }
@@ -489,6 +542,7 @@ function pushHeadingRibbon(
     width: density < 1 ? 5.5 : 1.7,
     focus: shape.focus,
     shear: density < 1 ? shape.shear * 0.65 : shape.shear,
+    avoid: [padBox(title, 22, 16)],
   });
 }
 
@@ -518,7 +572,7 @@ function pushSweep(
   });
 }
 
-function buildGeometry(guides: Guide[], segments: number) {
+function buildGeometry(guides: Guide[], segments: number, compact: boolean) {
   const positions: number[] = [];
   const along: number[] = [];
   const sides: number[] = [];
@@ -535,8 +589,17 @@ function buildGeometry(guides: Guide[], segments: number) {
   const sparkGains: number[] = [];
   const sparkColors: number[] = [];
 
+  const motePositions: number[] = [];
+  const moteSeeds: number[] = [];
+  const moteGains: number[] = [];
+  const moteColors: number[] = [];
+  const moteSizes: number[] = [];
+  const moteDrifts: number[] = [];
+  const motePhases: number[] = [];
+
   const lime = new THREE.Color("#c4ff4d");
   const cyan = new THREE.Color("#39d5e8");
+  const white = new THREE.Color("#f3fff4");
 
   for (const guide of guides) {
     const curve = new THREE.CatmullRomCurve3(
@@ -593,6 +656,37 @@ function buildGeometry(guides: Guide[], segments: number) {
         }
       }
     }
+
+    const moteCount = compact ? 52 : guide.count > 30 ? 340 : 120;
+    for (let mote = 0; mote < moteCount; mote += 1) {
+      const n = mote * 1.17 + guide.anchors[0].x * 0.013 + guide.anchors[0].y * 0.017 + guide.spread * 0.02;
+      const t = hash(n + 0.17);
+      const center = curve.getPoint(t);
+      const tangent = curve.getTangent(t);
+      const length = Math.hypot(tangent.x, tangent.y) || 1;
+      const nx = -tangent.y / length;
+      const ny = tangent.x / length;
+      const halo = compact ? 2 + hash(n + 1.1) * 7 : guide.spread * (0.02 + hash(n + 1.1) * 0.62);
+      const side = hash(n + 2.3) * 2 - 1;
+      const along = (hash(n + 3.7) - 0.5) * (compact ? 8 : guide.spread * 0.2);
+      const x = center.x + nx * side * halo + (tangent.x / length) * along;
+      const y = center.y + ny * side * halo + (tangent.y / length) * along;
+      if (overlapsBox(x, y, guide.avoid)) {
+        continue;
+      }
+      const orb = hash(n + 8.2) > 0.82;
+      const color = (hash(n + 4.8) > 0.36 ? lime : cyan).clone();
+      if (hash(n + 5.6) > 0.74) {
+        color.lerp(white, 0.7);
+      }
+      motePositions.push(x, -y, 0);
+      moteSeeds.push(hash(n + 6.1));
+      moteGains.push(Math.min(1.15, guide.gain * 1.45) * (orb ? 0.72 : 0.78 + hash(n + 7.4) * 0.5));
+      moteColors.push(color.r, color.g, color.b);
+      moteSizes.push(orb ? 3.6 + hash(n + 9.3) * 2.4 : 1.7 + hash(n + 9.3) * 2.1);
+      moteDrifts.push((compact ? 2 : 6) + hash(n + 10.5) * (compact ? 2.5 : 8));
+      motePhases.push(hash(n + 11.2) * Math.PI * 2);
+    }
   }
 
   const ribbons = new THREE.BufferGeometry();
@@ -614,7 +708,22 @@ function buildGeometry(guides: Guide[], segments: number) {
   sparks.setAttribute("aGain", new THREE.Float32BufferAttribute(sparkGains, 1));
   sparks.setAttribute("aColor", new THREE.Float32BufferAttribute(sparkColors, 3));
 
-  return { ribbons, sparks };
+  const motes = new THREE.BufferGeometry();
+  const moteFallback = motePositions.length > 0 ? motePositions : [0, 0, 0];
+  motes.setAttribute("position", new THREE.Float32BufferAttribute(moteFallback, 3));
+  motes.setAttribute("aSeed", new THREE.Float32BufferAttribute(moteSeeds.length ? moteSeeds : [0], 1));
+  motes.setAttribute("aGain", new THREE.Float32BufferAttribute(moteGains.length ? moteGains : [0], 1));
+  motes.setAttribute("aColor", new THREE.Float32BufferAttribute(moteColors.length ? moteColors : [0, 0, 0], 3));
+  motes.setAttribute("aSize", new THREE.Float32BufferAttribute(moteSizes.length ? moteSizes : [0], 1));
+  motes.setAttribute("aDrift", new THREE.Float32BufferAttribute(moteDrifts.length ? moteDrifts : [0], 1));
+  motes.setAttribute("aPhase", new THREE.Float32BufferAttribute(motePhases.length ? motePhases : [0], 1));
+
+  return { ribbons, sparks, motes };
+}
+
+function hash(value: number) {
+  const raw = Math.sin(value * 127.1) * 43758.5453;
+  return raw - Math.floor(raw);
 }
 
 function layoutBox(selector: string): Box | null {
@@ -649,6 +758,17 @@ function measure(selector: string): Box | null {
 
 function point(x: number, y: number): Point {
   return { x, y };
+}
+
+function padBox(box: Box, xPad: number, yPad: number): Box {
+  return { x: box.x - xPad, y: box.y - yPad, w: box.w + xPad * 2, h: box.h + yPad * 2 };
+}
+
+function overlapsBox(x: number, y: number, boxes: Box[] | undefined) {
+  if (!boxes) {
+    return false;
+  }
+  return boxes.some((box) => x > box.x && x < box.x + box.w && y > box.y && y < box.y + box.h);
 }
 
 function ribbonBrightness(x: number, y: number, guide: Guide) {
