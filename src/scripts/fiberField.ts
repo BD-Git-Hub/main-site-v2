@@ -22,10 +22,23 @@ type Guide = {
 };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const phoneQuery = window.matchMedia("(max-width: 759px)");
 const field = document.querySelector<HTMLElement>(".light-field");
 const canvas = document.querySelector<HTMLCanvasElement>("#fiber-field");
 
 if (!reduceMotion && field && canvas) {
+  if (phoneQuery.matches) {
+    phoneQuery.addEventListener("change", startWhenDesktop);
+  } else {
+    startFiberField(field, canvas);
+  }
+}
+
+function startWhenDesktop() {
+  if (phoneQuery.matches || !field || !canvas) {
+    return;
+  }
+  phoneQuery.removeEventListener("change", startWhenDesktop);
   startFiberField(field, canvas);
 }
 
@@ -191,9 +204,23 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
   let composer: EffectComposer | null = null;
   const useBloom = window.innerWidth >= 960;
 
+  let phone = window.innerWidth < 760;
+  let frame = 0;
+  let revealed = false;
+
   const resize = () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
+    phone = width < 760;
+    if (phone) {
+      clearField();
+      field.classList.remove("light-field--live");
+      if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      return;
+    }
     renderer.setSize(width, height, false);
     camera.left = -width / 2;
     camera.right = width / 2;
@@ -204,6 +231,10 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
     if (useBloom) {
       composer?.setSize(width, height);
     }
+    if (revealed) {
+      field.classList.add("light-field--live");
+    }
+    kick();
   };
 
   const frameCamera = () => {
@@ -214,23 +245,32 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
     camera.lookAt(width / 2, y, 0);
   };
 
-  const rebuild = (width: number) => {
+  const clearField = () => {
     if (ribbon) {
       scene.remove(ribbon);
       ribbon.geometry.dispose();
+      ribbon = null;
     }
     if (sparks) {
       scene.remove(sparks);
       sparks.geometry.dispose();
+      sparks = null;
     }
     if (motes) {
       scene.remove(motes);
       motes.geometry.dispose();
+      motes = null;
+    }
+  };
+
+  const rebuild = (width: number) => {
+    clearField();
+    if (width < 760) {
+      return;
     }
 
-    const compact = width < 760;
-    const guides = createGuides(compact);
-    const built = buildGeometry(guides, compact ? 22 : 36, compact);
+    const guides = createGuides(false);
+    const built = buildGeometry(guides, 36, false);
     ribbon = new THREE.Mesh(built.ribbons, ribbonMaterial);
     ribbon.frustumCulled = false;
     sparks = new THREE.Points(built.sparks, sparkMaterial);
@@ -247,16 +287,12 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
     composer.addPass(new OutputPass());
   }
 
-  resize();
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => field.classList.add("light-field--live"));
-  });
-
   let running = true;
   const clock = new THREE.Clock();
 
   const draw = () => {
-    if (!running) {
+    frame = 0;
+    if (!running || phone) {
       return;
     }
     uniforms.uTime.value += Math.min(clock.getDelta(), 0.05);
@@ -266,16 +302,31 @@ function startFiberField(field: HTMLElement, canvas: HTMLCanvasElement) {
     } else {
       renderer.render(scene, camera);
     }
-    requestAnimationFrame(draw);
+    frame = requestAnimationFrame(draw);
   };
 
-  requestAnimationFrame(draw);
+  const kick = () => {
+    if (!frame && running && !phone) {
+      clock.getDelta();
+      frame = requestAnimationFrame(draw);
+    }
+  };
+
+  resize();
+  kick();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      revealed = true;
+      if (!phone) {
+        field.classList.add("light-field--live");
+      }
+    });
+  });
   window.addEventListener("resize", resize);
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;
     if (running) {
-      clock.getDelta();
-      requestAnimationFrame(draw);
+      kick();
     }
   });
 }
