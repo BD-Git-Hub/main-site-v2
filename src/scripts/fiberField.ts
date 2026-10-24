@@ -273,22 +273,16 @@ function createGuides(compact: boolean): Guide[] {
   });
 
   pushSweep(guides, skills, density, {
-    ys: [0.16, 0.02, 0.28, 0.08],
-    count: 24,
-    spread: 90,
-    gain: 0.58,
+    ys: [0.08, 0.0, 0.12, 0.04],
+    count: 10,
+    spread: 42,
+    gain: 0.26,
   });
   pushSweep(guides, skills, density, {
-    ys: [0.62, 0.86, 0.4, 0.72],
-    count: 28,
-    spread: 120,
-    gain: 0.5,
-  });
-  pushSweep(guides, skills, density, {
-    ys: [0.94, 0.72, 1.02, 0.84],
-    count: 16,
-    spread: 70,
-    gain: 0.34,
+    ys: [0.78, 0.92, 0.62, 0.84],
+    count: 12,
+    spread: 58,
+    gain: 0.28,
   });
 
   pushSweep(guides, beyond, density, {
