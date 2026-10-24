@@ -272,52 +272,32 @@ function createGuides(compact: boolean): Guide[] {
     gain: 0.24,
   });
 
-  pushSweep(guides, skills, density, {
-    ys: [0.08, 0.0, 0.12, 0.04],
-    count: 10,
-    spread: 42,
-    gain: 0.26,
-  });
-  pushSweep(guides, skills, density, {
-    ys: [0.78, 0.92, 0.62, 0.84],
-    count: 12,
-    spread: 58,
-    gain: 0.28,
-  });
-
-  pushSweep(guides, beyond, density, {
-    ys: [0.12, 0.02, 0.2, 0.08],
-    count: 12,
-    spread: 48,
-    gain: 0.3,
-  });
-  pushSweep(guides, beyond, density, {
-    ys: [0.86, 0.94, 0.78, 0.9],
-    count: 12,
-    spread: 52,
-    gain: 0.28,
-  });
-
-  const contactTitle = measure("#contact-title");
-  if (contact && contactTitle) {
-    const spread = compact ? 24 : 32;
-    const below = contactTitle.y + contactTitle.h + spread + 10;
-    guides.push({
-      anchors: [
-        point(contact.x - 40, below + 6),
-        point(contact.x + contact.w * 0.28, below),
-        point(contact.x + contact.w * 0.62, below + 12),
-        point(contact.x + contact.w + 60, below + 4),
-      ],
-      count: Math.round(14 * density),
-      spread,
-      gain: 0.36,
-      width: compact ? 1.3 : 1.5,
-      focus: 0.35,
-    });
-  }
+  pushHeadingRibbon(guides, skills, measure("#skills-title"), density);
+  pushHeadingRibbon(guides, beyond, measure("#beyond-title"), density);
+  pushHeadingRibbon(guides, contact, measure("#contact-title"), density);
 
   return guides;
+}
+
+function pushHeadingRibbon(guides: Guide[], section: Box | null, title: Box | null, density: number) {
+  if (!section || !title) {
+    return;
+  }
+
+  const span = Math.max(150, Math.min(320, section.w * 0.22));
+  guides.push({
+    anchors: [
+      point(section.x - 48, title.y + span * 0.08),
+      point(section.x + section.w * 0.3, title.y - span * 0.42),
+      point(section.x + section.w * 0.68, title.y + span * 0.58),
+      point(section.x + section.w + 56, title.y - span * 0.06),
+    ],
+    count: Math.max(8, Math.round(18 * density)),
+    spread: density < 1 ? 36 : 70,
+    gain: 0.36,
+    width: density < 1 ? 5.5 : 1.7,
+    focus: 0.5,
+  });
 }
 
 function pushSweep(
