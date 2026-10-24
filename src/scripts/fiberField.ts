@@ -298,19 +298,22 @@ function createGuides(compact: boolean): Guide[] {
     gain: 0.44,
   });
 
-  if (contact) {
+  const contactTitle = measure("#contact-title");
+  if (contact && contactTitle) {
+    const spread = compact ? 36 : Math.min(48, contact.h * 0.09);
+    const below = contactTitle.y + contactTitle.h + spread + 6;
     guides.push({
       anchors: [
-        point(contact.x - 40, contact.y + contact.h * 0.86),
-        point(contact.x + contact.w * 0.22, contact.y + contact.h * 0.42),
-        point(contact.x + contact.w * 0.62, contact.y + contact.h * 0.78),
-        point(contact.x + contact.w + 60, contact.y + contact.h * 0.28),
+        point(contact.x - 40, below + 8),
+        point(contact.x + contact.w * 0.28, below),
+        point(contact.x + contact.w * 0.62, below + 18),
+        point(contact.x + contact.w + 60, below + 4),
       ],
       count: Math.round(28 * density),
-      spread: contact.h * 0.16,
+      spread,
       gain: 0.62,
       width: compact ? 1.3 : 1.7,
-      focus: 0.5,
+      focus: 0.35,
     });
   }
 
